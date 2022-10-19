@@ -1,0 +1,22 @@
+.nav {
+  &__list {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    height: 100%;
+    border-bottom: 2px solid transparent;
+    transition: 0.5s;
+    color: white;
+
+    &:hover {
+      border-bottom: 2px solid #000;
+      transition: 0.5s;
+    }
+  }
+}
