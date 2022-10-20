@@ -1,0 +1,25 @@
+.standing {
+  // background-color: black;
+  color: white;
+}
+
+.table {
+  font-size: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 20px;
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 20px;
+  }
+
+  &__logo {
+    width: 100%;
+
+    &_img {
+      width: 30px;
+    }
+  }
+}

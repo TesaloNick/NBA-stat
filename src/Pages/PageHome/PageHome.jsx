@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './PageHome.module.scss'
 
-export default function MainPage() {
+export default function PageHome() {
+
   return (
-    <div>MainPage</div>
+    <div className={style.home}>
+
+    </div>
   )
 }

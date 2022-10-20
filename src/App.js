@@ -1,30 +1,24 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { PageHome, PageSeasons, PageTeams, PagePlayers, PageStanding } from './Pages/index'
-import { Header } from './Components/index';
-import React, { lazy, Suspense } from 'react';
+import { Header, Main } from './Components/index';
+import React, { lazy, Suspense, useContext } from 'react';
 import style from './App.css'
+import contextData from './Context/data';
 
-const Error = lazy(() => import('./Pages/PageErrors/PageErrors'))
 
 function App() {
+  const data = useContext(contextData)
+
+  console.log(data);
+
   return (
     <div>
-      <Router>
-        <div className='header'>
+      <contextData.Provider value={data}>
+        <Router>
           <Header />
-        </div>
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Routes>
-            <Route path='/' element={<PageHome />} />
-            <Route path='/seasons' element={<PageSeasons />} />
-            <Route path='/standing' element={<PageStanding />} />
-            <Route path='/players' element={<PagePlayers />} />
-            <Route path='/teams' element={<PageTeams />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
-        </Suspense>
-      </Router>
+          <Main />
+        </Router>
+      </contextData.Provider>
     </div>
   );
 }

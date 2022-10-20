@@ -1,12 +1,20 @@
 .header {
-  display: flex;
-  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-bottom: 3px solid grey;
+}
+
+.container {
   max-width: 1200px;
   margin: auto;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
 }
 
 .logo {
   width: 40px;
-  position: relative;
-  top: 20px;
+  // position: relative;
+  // top: 20px;
 }
