@@ -9,19 +9,16 @@ export default function PageStanding() {
   useEffect(() => {
     const options = {
       method: 'GET',
-      url: 'https://api-nba-v1.p.rapidapi.com/standings',
-      params: { league: 'standard', season: '2021' },
-      headers: {
-        'X-RapidAPI-Key': 'ce84889158msh60600aa7ca1713ap1d994bjsn762debf01314',
-        'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
-      }
+      url: 'https://www.balldontlie.io/api/v1/games?team_ids[]=14&per_page=100&seasons[]=2021',
     };
 
     axios.request(options)
-      .then(res => setdataStandingTable(res.data.response))
+      .then(res => {
+        let data = res.data.data
+        data = data.sort((a, b) => a.id - b.id)
+        return setdataStandingTable(res.data.data)
+      })
       .catch((error) => console.error(error));
-
-
   }, [])
   console.log(dataStandingTable);
 
@@ -33,17 +30,17 @@ export default function PageStanding() {
         )}</select>
       </form>
 
-      <table className={style.table}>
+      <div className={style.table}>
         {dataStandingTable.map((row, index) => (
           // <div key={index} className={style.table__row}>
-          <>
-            <div className={style.table__logo}><img className={style.table__logo_img} src={row.team.logo} alt="" /></div>
-            <div className={style.table__name}>{row.team.name}</div>
-            <div className={style.table__win}>{row.win.total}</div>
-            <div className={style.table__loss}>{row.loss.total}</div>
-          </>
+          <div key={index}>
+            {/* <div className={style.table__logo}><img className={style.table__logo_img} src={row.team.logo} alt="" /></div> */}
+            <div className={style.table__name}>{row.date}</div>
+            {/* <div className={style.table__win}>{row.win.total}</div>
+            <div className={style.table__loss}>{row.loss.total}</div> */}
+          </div>
         ))}
-      </table>
+      </div>
     </div>
   )
 }

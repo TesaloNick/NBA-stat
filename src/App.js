@@ -9,7 +9,7 @@ import contextData from './Context/data';
 function App() {
   const data = useContext(contextData)
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
