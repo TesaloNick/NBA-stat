@@ -10,7 +10,7 @@
   // grid-template-columns: 30px auto 40px 40px;
   gap: 20px;
 
-  &__row {
+  &__team {
     display: grid;
     grid-template-columns: repeat(1, auto);
     // grid-template-columns: repeat(4, auto);
@@ -25,6 +25,7 @@
 
     &_img {
       width: 30px;
+      height: 30px;
     }
   }
 }
