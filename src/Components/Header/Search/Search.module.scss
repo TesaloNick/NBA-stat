@@ -1,7 +1,24 @@
 .search {
   width: 100%;
 
-  img {
+  &:hover {
+    .search__input {
+      width: 100%;
+      transition: 0.5s;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: 0.5s;
+  }
+
+  &__image {
     width: 30px;
   }
 }

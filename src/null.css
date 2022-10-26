@@ -86,3 +86,6 @@ h6 {
   font-size: inherit;
   font-weight: inherit;
 }
+#root{
+  height: 100%;
+}

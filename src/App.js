@@ -12,7 +12,7 @@ function App() {
   // console.log(data);
 
   return (
-    <div>
+    <div className='app'>
       <contextData.Provider value={data}>
         <Router>
           <Header />
