@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
 
 import style from './Main.module.scss'
-import { PageHome, PageSeasons, PageTeams, PagePlayers, PageStanding, PageTeam } from '../../Pages/index'
+import { PageHome, PageSeasons, PageTeams, PagePlayers, PageStanding, PageTeam, PageSearchResult } from '../../Pages/index'
 
 const Error = lazy(() => import('../../Pages/PageErrors/PageErrors'))
 
@@ -17,6 +17,7 @@ export default function Main() {
             <Route path='/seasons' element={<PageSeasons />} />
             <Route path='/standing' element={<PageStanding />} />
             <Route path='/players' element={<PagePlayers />} />
+            <Route path='/searching/:searchedName' element={<PageSearchResult />} />
             <Route path='/teams' element={<PageTeams />} />
             <Route path='/team/:id' element={<PageTeam />} />
             <Route path="*" element={<Error />} />

@@ -14,9 +14,9 @@
   &__span {
     position: absolute;
     display: block;
-    height: 3px;
+    height: 5px;
     background-color: #fff;
-    border-radius: 1px;
+    border-radius: 2px;
     transition: 0.5s;
 
     &:nth-of-type(1) {

@@ -1,7 +1,5 @@
 import { createContext } from "react";
 
-const contextData = createContext({
-  name: 'nick'
-})
+const contextData = createContext({ name: 'data' })
 
 export default contextData
