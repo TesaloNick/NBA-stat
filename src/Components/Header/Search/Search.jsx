@@ -3,7 +3,6 @@ import search from '../../../assets/images/search.png'
 import close from '../../../assets/images/close.png'
 import style from './Search.module.scss'
 import axios from 'axios';
-import PageSearchResult from '../../../Pages/PageSearchResult/PageSearchResult';
 import { Link, useNavigate } from 'react-router-dom';
 
 import contextData from '../../../Context/data';
@@ -14,6 +13,7 @@ export default function Search(props) {
   const inputRef = useRef(null)
   const dataContext = useContext(contextData)
   const navigate = useNavigate()
+
 
   useEffect(() => {
     if (inputRef) inputRef.current.focus()
@@ -37,9 +37,10 @@ export default function Search(props) {
     setSearchedName(event.target.value)
   }
 
-  function handleClick(event) {
+  function submitSearch(event) {
     event.preventDefault()
     navigate(`/searching/${searchedName}`)
+    setIsActiveSearch(!isActiveSearch)
   }
 
   return (
@@ -48,19 +49,19 @@ export default function Search(props) {
         <img className={style.search__image} src={search} alt="" />
       </div>
       {isActiveSearch ?
-        <form className={style.search__active_wrapper} onSubmit={handleClick}>
+        <form className={style.search__active_wrapper} onSubmit={submitSearch}>
           {/* <div className={`${style.search__close} ${style.active}`} onClick={toggleInputSearch}></div> */}
           <input className={style.search__input_active} type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} />
-          <Link to={`/searching/${searchedName}`} className={style.search__search_button}>
+          <button className={style.search__search_button}>
             <img src={search} alt="" />
-          </Link>
+          </button>
           <div className={style.search__close_button} onClick={toggleInputSearch}>
             <img src={close} alt="" />
           </div>
         </form> :
         <form className={style.search__active_wrapper}>
           {/* <div className={style.search__close} onClick={toggleInputSearch}></div> */}
-          <input className={style.search__input} type="text" ref={inputRef} />
+          <input className={style.search__input} value={searchedName} type="text" ref={inputRef} onChange={changeSearchingValue} />
         </form>
       }
     </div>

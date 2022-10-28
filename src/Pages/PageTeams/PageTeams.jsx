@@ -66,7 +66,7 @@ export default function PageTeams() {
               {division.teams.map(team => (
                 <div className={style.teams__team} key={team.id}>
                   <Link to={'/team/' + team.id} className={style.teams__logo_wrapper}>
-                    <img className={style.teams__logo} src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
+                    <img src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
                   </Link>
                   {/* <div className={style.teams__name}>{team.full_name}</div> */}
                 </div>
@@ -81,7 +81,7 @@ export default function PageTeams() {
               {conference.teams.map(team => (
                 <div className={style.teams__team} key={team.id}>
                   <Link to={'/team/' + team.id} className={style.teams__logo_wrapper}>
-                    <img className={style.teams__logo} src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
+                    <img src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
                   </Link>
                   {/* <div className={style.teams__name}>{team.full_name}</div> */}
                 </div>

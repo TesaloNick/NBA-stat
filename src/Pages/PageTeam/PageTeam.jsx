@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import style from './PageTeam.module.scss'
 import axios from 'axios';
+import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
 import backImage from '../../assets/images/back.png'
@@ -10,11 +11,11 @@ export default function PageTeam() {
   const { id } = useParams()
   const [teamStat, setTeamStat] = useState(false)
   const [isStatExist, setIsStatExist] = useState(true)
-  const [selectedYear, setSelectedYear] = useState(2021)
-  const [yearsArr, setYearsArr] = useState([2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989, 1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980, 1979])
+  const [selectedYear, setSelectedYear] = useState('2021-2022')
+  const dataContext = useContext(contextData)
 
   useEffect(() => {
-    axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear}-10-01`)
+    axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01`)
       .then(res => {
         if (res.data.data.length === 0) {
           setIsStatExist(false)
@@ -22,32 +23,30 @@ export default function PageTeam() {
           setIsStatExist(true)
 
           let wins = 0
+          let losses = 0
           let abbreviation = ''
           let name = ''
-          console.log(res.data.data);
           res.data?.data.map(item => {
             if (item.status === "Final") {
               if (item.home_team.id == id) {
                 abbreviation = item.home_team.abbreviation
                 name = item.home_team.full_name
-                if (item.home_team_score > item.visitor_team_score) wins++
+                item.home_team_score > item.visitor_team_score ? wins++ : losses++
               } else {
-                if (item.visitor_team_score > item.home_team_score) wins++
+                item.visitor_team_score > item.home_team_score ? wins++ : losses++
               }
             }
           })
 
           setTeamStat({
             wins,
-            losses: 82 - wins,
+            losses: losses,
             abbreviation,
             name
           })
         }
       })
   }, [selectedYear])
-
-  console.log(teamStat);
 
   function changeList(event) {
     setSelectedYear(event.target.value);
@@ -61,7 +60,7 @@ export default function PageTeam() {
     <div className={style.wrapper}>
       <Link to='/teams' className={style.back}><img src={backImage} alt="" /></Link>
       <select name="" id="" onChange={changeList} value={selectedYear} className={style.select}>
-        {yearsArr.map(year => (
+        {dataContext.seasons.map(year => (
           <option className={style.select__option} value={year} key={year} >{year}</option>
         ))}
       </select>

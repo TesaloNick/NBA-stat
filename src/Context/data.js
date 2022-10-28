@@ -1,5 +1,12 @@
 import { createContext } from "react";
 
-const contextData = createContext({ name: 'data' })
+let seasonsList = []
+for (let i = 2021; i >= 1979; i--) {
+  seasonsList.push(`${i}-${i + 1}`)
+}
+
+const contextData = createContext({
+  seasons: seasonsList
+})
 
 export default contextData
