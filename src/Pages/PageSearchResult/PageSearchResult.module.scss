@@ -1,3 +1,35 @@
 .wrapper {
   color: white;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: 140px auto;
+  gap: 10px;
+  align-items: center;
+
+  &__logo_wrapper {
+    // width: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__text {
+    font-size: 20px;
+  }
 }

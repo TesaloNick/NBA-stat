@@ -29,15 +29,33 @@ export default function PageSearchResult() {
   return (
     <div className={style.wrapper}>
       {playersInfo.map(player => (
-        <div key={player.id}>
-          <div className={style.name}>Name: {`${player.first_name} ${player.last_name}`}</div>
-          <div className={style.name}>Height: {`${player.height_feet}-${player.height_inches}`}</div>
-          <div className={style.name}>Weight: {player.weight_pounds}lb</div>
-          <div className={style.height}>Position: {player.position}</div>
-          <div className={style.height}>Team: {player.team.full_name}</div>
-          <div className={style.team__logo_wrapper}>
-            <img className={style.team__logo} src={`/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
+        <div key={player.id} className={style.player}>
+          <div className={style.player__logo_wrapper}>
+            <img src={`/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
           </div>
+          <div className={style.player__info}>
+            <div className={style.player__text}>Name: {`${player.first_name} ${player.last_name}`}</div>
+            <div className={style.player__text}>Height:
+              {player.height_feet ?
+                ` ${player.height_feet}-${player.height_inches}` :
+                ' -'
+              }
+            </div>
+            <div className={style.player__text}>Weight:
+              {player.weight_pounds ?
+                ` ${player.weight_pounds}lb` :
+                ' -'
+              }
+            </div>
+            <div className={style.player__text}>Position:
+              {player.position ?
+                ` ${player.position}` :
+                ' -'
+              }
+            </div>
+            <div className={style.player__text}>Team: {player.team.abbreviation}</div>
+          </div>
+
         </div>
       ))}
     </div>
