@@ -4,6 +4,7 @@ import style from './PageSearchResult.module.scss'
 import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
+import PaginatedItems from '../../Elements/Pagination';
 
 export default function PageSearchResult() {
   const { searchedName } = useParams()
@@ -29,41 +30,43 @@ export default function PageSearchResult() {
 
   return (
     <div className={style.wrapper}>
-      {playersInfo.length > 0 ?
-        playersInfo.map(player => (
-          <Link to={`/player/${player.id}`} key={player.id} className={style.player} onClick={() => savePlayerInfo(player)}>
-            <div className={style.player__logo_wrapper}>
-              <img src={`/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
-            </div>
-            <div className={style.player__info}>
-              <div className={style.player__text}><b>Name:</b> {`${player.first_name} ${player.last_name}`}</div>
-              <div className={style.player__text}><b>Height:</b>
-                {player.height_feet ?
-                  ` ${player.height_feet}-${player.height_inches}` :
-                  ' -'
-                }
+      <PaginatedItems itemsPerPage={4} />
+      {
+        playersInfo.length > 0 ?
+          playersInfo.map(player => (
+            <Link to={`/player/${player.id}`} key={player.id} className={`${style.player} ${style.effect_1}`} onClick={() => savePlayerInfo(player)}>
+              <div className={style.player__logo_wrapper}>
+                <img src={`/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
               </div>
-              <div className={style.player__text}><b>Weight:</b>
-                {player.weight_pounds ?
-                  ` ${player.weight_pounds}lb` :
-                  ' -'
-                }
+              <div className={style.player__info}>
+                <div className={style.player__text}><b>Name:</b> {`${player.first_name} ${player.last_name}`}</div>
+                <div className={style.player__text}><b>Height:</b>
+                  {player.height_feet ?
+                    ` ${player.height_feet}-${player.height_inches}` :
+                    ' -'
+                  }
+                </div>
+                <div className={style.player__text}><b>Weight:</b>
+                  {player.weight_pounds ?
+                    ` ${player.weight_pounds}lb` :
+                    ' -'
+                  }
+                </div>
+                <div className={style.player__text}><b>Position:</b>
+                  {player.position ?
+                    ` ${player.position}` :
+                    ' -'
+                  }
+                </div>
+                <div className={style.player__text}><b>Team: </b>{player.team.abbreviation}</div>
               </div>
-              <div className={style.player__text}><b>Position:</b>
-                {player.position ?
-                  ` ${player.position}` :
-                  ' -'
-                }
-              </div>
-              <div className={style.player__text}><b>Team: </b>{player.team.abbreviation}</div>
-            </div>
 
-          </Link>
-        )) :
-        <div className={style.wrong}>
-          <h2 className={style.wrong__title}>There have never been such players in the NBA</h2>
-        </div>
+            </Link>
+          )) :
+          <div className={style.wrong}>
+            <h2 className={style.wrong__title}>There have never been such players in the NBA</h2>
+          </div>
       }
-    </div>
+    </div >
   )
 }

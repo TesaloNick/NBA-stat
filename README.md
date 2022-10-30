@@ -68,3 +68,35 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+https://www.balldontlie.io/api/v1/players	поиск игроков
+https://www.balldontlie.io/api/v1/players?page=<AMOUNT>	поиск игроков (номер страницы)
+https://www.balldontlie.io/api/v1/players?per_page=<AMOUNT>	поиск игроков (количество игроков на странице)
+https://www.balldontlie.io/api/v1/players?search=<name>	поиск игрока по имени
+https://www.balldontlie.io/api/v1/players/<ID>	поиск игрока по ID
+Teams	
+https://www.balldontlie.io/api/v1/teams	поиск всех команд (без статистики)
+https://www.balldontlie.io/api/v1/teams?page=<AMOUNT>	поиск команд (номер страницы)
+https://www.balldontlie.io/api/v1/teams?per_page=<AMOUNT>	поиск команд (количество команд на странице)
+https://www.balldontlie.io/api/v1/teams/<ID>	поиск команды по ID
+Games	
+https://www.balldontlie.io/api/v1/games?dates[]=<YYYY-MM-DD>	запрос игр по дате
+https://www.balldontlie.io/api/v1/games?postseason=<BOOLEAN>	запрос игре по плей-офф
+https://www.balldontlie.io/api/v1/games?seasons[]=<YYYY>	запрос игр по сезону
+https://www.balldontlie.io/api/v1/games?per_page=<AMOUNT>	поиск игр (количество игр на странице)
+https://www.balldontlie.io/api/v1/games?team_ids[]=<ID>	запрос игр по команде
+https://www.balldontlie.io/api/v1/games?start_date=<YYYY-MM-DD>	запрос игр по дате начала
+https://www.balldontlie.io/api/v1/games?end_date=<YYYY-MM-DD>	запрос игр по дате конца
+https://www.balldontlie.io/api/v1/games/<ID>	запрос игр по ID
+stats	
+https://www.balldontlie.io/api/v1/stats?page=<amount>	
+https://www.balldontlie.io/api/v1/stats?per_page=<amount>	
+https://www.balldontlie.io/api/v1/stats?dates[]=<YYYY-MM-DD>	
+https://www.balldontlie.io/api/v1/stats?seasons[]=<YYYY>	
+https://www.balldontlie.io/api/v1/stats?player_ids[]=<ID>	
+https://www.balldontlie.io/api/v1/stats?game_ids[]=<ID>	
+https://www.balldontlie.io/api/v1/stats?postseason=<BOOLEAN>	
+https://www.balldontlie.io/api/v1/stats?start_date=<YYYY-MM-DD>	
+https://www.balldontlie.io/api/v1/stats?end_date=<YYYY-MM-DD>	
+Season Averages	
+https://www.balldontlie.io/api/v1/season_averages?season=<YYYY>&player_ids[]=<ID>	
