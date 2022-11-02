@@ -13,10 +13,6 @@ export default function Search(props) {
   const inputRef = useRef(null)
   const dataContext = useContext(contextData)
   const navigate = useNavigate()
-  console.log(a);
-  if (true) {
-    var a = 1
-  }
 
   useEffect(() => {
     if (inputRef) inputRef.current.focus()

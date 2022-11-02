@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  padding: 20px 0;
+  // padding: 20px 0;
 }
 
 .player {
@@ -84,26 +84,5 @@
   &__title {
     font-size: 30px;
     font-weight: 700;
-  }
-}
-
-ul {
-  a {
-    color: #fff;
-  }
-
-  .previous {
-  }
-
-  .selected {
-  }
-
-  .disabled {
-  }
-
-  .break {
-  }
-  .break__link {
-    font-size: 20px;
   }
 }

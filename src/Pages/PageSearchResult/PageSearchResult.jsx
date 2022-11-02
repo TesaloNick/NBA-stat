@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import style from './PageSearchResult.module.scss'
+import './PageSearchResult.scss'
 import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
@@ -14,7 +15,7 @@ export default function PageSearchResult() {
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const itemsPerPage = 15;
 
   useEffect(() => { // создание пагинации
     if (playersInfo) {
@@ -53,11 +54,11 @@ export default function PageSearchResult() {
         onPageChange={handlePageClick}
         breakLabel="..."
         breakClassName={style.brea}
-        breakLinkClassName='break__link'
+        // breakLinkClassName='break__link'
         marginPagesDisplayed={3}
         pageCount={pageCount}
-        previousLabel="Previous"
-        nextLabel="Next"
+        previousLabel="<Previous>"
+        nextLabel=">"
         renderOnZeroPageCount={null}
       />
       <div className={style.wrapper}>
@@ -98,6 +99,18 @@ export default function PageSearchResult() {
             </div>
         }
       </div >
+      <ReactPaginate
+        containerClassName='pagination'
+        onPageChange={handlePageClick}
+        breakLabel="..."
+        breakClassName={style.brea}
+        // breakLinkClassName='break__link'
+        marginPagesDisplayed={3}
+        pageCount={pageCount}
+        previousLabel="<Previous>"
+        nextLabel=">"
+        renderOnZeroPageCount={null}
+      />
     </>
   )
 }

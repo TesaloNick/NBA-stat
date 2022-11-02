@@ -1,0 +1,43 @@
+.pagination {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  li {
+    a {
+      display: block;
+      padding: 10px 15px;
+      background-color: grey;
+      color: black;
+      font-size: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #b5b5b5;
+      }
+    }
+  }
+
+  .previous {
+  }
+
+  .selected {
+    a {
+      background-color: white;
+    }
+  }
+
+  .disabled {
+  }
+
+  .break {
+  }
+}
+
+.next {
+  a {
+    color: red;
+  }
+}
