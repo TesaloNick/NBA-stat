@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 let seasonsList = []
-for (let i = 2021; i >= 1979; i--) {
+for (let i = 2022; i >= 1979; i--) {
   seasonsList.push(`${i}-${i + 1}`)
 }
 

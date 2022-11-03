@@ -26,6 +26,10 @@
   .selected {
     a {
       background-color: white;
+
+      &:hover {
+        background-color: white;
+      }
     }
   }
 

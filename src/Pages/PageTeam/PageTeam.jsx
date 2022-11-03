@@ -4,7 +4,7 @@ import axios from 'axios';
 import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
-import backImage from '../../assets/images/back.png'
+import backImage from '../../assets/images/arrow.png'
 
 
 export default function PageTeam() {

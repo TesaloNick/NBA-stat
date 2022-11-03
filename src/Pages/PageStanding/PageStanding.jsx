@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import style from './PageStanding.module.scss'
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner';
+import contextData from '../../Context/data';
 
 export default function PageStanding() {
-  // const seasons = [2021, 2020, 2019, 2018, 2017, 2016, 2015]
   const [dataStandingTable, setdataStandingTable] = useState([])
   const teamIDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-  const [selectedYear, setSelectedYear] = useState(2021)
-  const [yearsArr, setYearsArr] = useState([])
+  const [selectedYear, setSelectedYear] = useState('2022-2023')
+  const dataContext = useContext(contextData)
 
   useEffect(() => {
     // const options = {
@@ -23,11 +23,10 @@ export default function PageStanding() {
     //     return setdataStandingTable(res.data.data)
     //   })
     //   .catch((error) => console.error(error));
-    createYearsArray()
 
     let teamsInfo = []
     teamIDs.map(async teamID => {
-      axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear}&team_ids[]=${teamID}&per_page=100&postseason=false&start_date=${selectedYear}-10-01`)
+      axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${teamID}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01`)
         .then(res => {
           let wins = 0
           let logo = ''
@@ -53,22 +52,13 @@ export default function PageStanding() {
   }, [selectedYear])
   console.log(dataStandingTable);
 
-
-  function createYearsArray() {
-    let years = []
-    for (let i = 1979; i <= 2021; i++) {
-      years.push(i)
-    }
-    setYearsArr(years)
-  }
-
   function changeList(event) {
     setSelectedYear(event.target.value);
   }
 
   async function getInfo() {
     const id = 15
-    return await axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=2021&team_ids[]=${id}&per_page=100&postseason=false&start_date=2021-10-01`)
+    return await axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01`)
       .then(res => {
         let wins = 0
         res.data.data.map(item => {
@@ -93,7 +83,7 @@ export default function PageStanding() {
     <div className={style.standing}>
       <form className={style.standing__form}>
         <select className={style.standing__select_seasons} onChange={changeList} value={selectedYear}>{
-          yearsArr.map(season =>
+          dataContext.seasons.map(season =>
             <option className={style.standing__select_season} key={season} value={season}>{season}</option>
           )
         }</select>

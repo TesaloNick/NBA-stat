@@ -11,6 +11,7 @@ export default function PageSearchResult() {
   const { searchedName } = useParams()
   const dataContext = useContext(contextData)
   const [playersInfo, setPlayersInfo] = useState(false)
+
   // pagination
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
@@ -48,7 +49,7 @@ export default function PageSearchResult() {
   }
 
   return (
-    <>
+    <div className={style.wrapper}>
       <ReactPaginate
         containerClassName='pagination'
         onPageChange={handlePageClick}
@@ -57,11 +58,11 @@ export default function PageSearchResult() {
         // breakLinkClassName='break__link'
         marginPagesDisplayed={3}
         pageCount={pageCount}
-        previousLabel="<Previous>"
+        previousLabel="<"
         nextLabel=">"
         renderOnZeroPageCount={null}
       />
-      <div className={style.wrapper}>
+      <div className={style.players_wrapper}>
         {
           currentItems.length > 0 ?
             currentItems.map(player => (
@@ -107,10 +108,10 @@ export default function PageSearchResult() {
         // breakLinkClassName='break__link'
         marginPagesDisplayed={3}
         pageCount={pageCount}
-        previousLabel="<Previous>"
+        previousLabel="<"
         nextLabel=">"
         renderOnZeroPageCount={null}
       />
-    </>
+    </div>
   )
 }
