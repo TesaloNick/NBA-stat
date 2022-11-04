@@ -6,5 +6,6 @@ import PageStanding from './PageStanding/PageStanding'
 import PageTeam from './PageTeam/PageTeam'
 import PageSearchResult from './PageSearchResult/PageSearchResult'
 import PagePlayer from './PagePlayer/PagePlayer'
+import PageGame from './PageGame/PageGame'
 
-export { PageHome, PageSeasons, PageTeams, PagePlayers, PageStanding, PageTeam, PageSearchResult, PagePlayer }
+export { PageHome, PageSeasons, PageTeams, PagePlayers, PageStanding, PageTeam, PageSearchResult, PagePlayer, PageGame }
