@@ -14,6 +14,8 @@ export default function PagePlayer() {
   const [averageSeasonStat, setAverageSeasonStat] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const [seasonStats, setSeasonStats] = useState([])
+  const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
+
 
   useEffect(() => {
     if (!dataContext.searchedPlayer) {
@@ -38,7 +40,7 @@ export default function PagePlayer() {
     axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`)
       .then(res => {
         setSeasonStats(res.data.data
-          .filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00")
+          .filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
           .sort((a, b) => {
             if (a.game.date.slice(0, 4) == b.game.date.slice(0, 4)) {
               if (a.game.date.slice(5, 7) == b.game.date.slice(5, 7)) {
@@ -168,32 +170,12 @@ export default function PagePlayer() {
           style.modal
       } onClick={() => { setIsModal(false) }}>
         <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
-          <div className={style.modal__close}><img src={close} alt="close modal" /></div>
+          {/* <div className={style.modal__close}><img src={close} alt="close modal" /></div> */}
           <h2>Detailed description of each game in season {selectedYear}</h2>
           <table className={style.statsTable}>
             <thead className={style.statsTable__type}>
               <tr className={style.statsTable__row}>
-                <th>DATE</th>
-                <th>OPP</th>
-                <th>MP</th>
-                <th>2P</th>
-                <th>2PA</th>
-                <th>2P%</th>
-                <th>3P</th>
-                <th>3PA</th>
-                <th>3P%</th>
-                <th>FT</th>
-                <th>FTA</th>
-                <th>FT%</th>
-                <th>ORB</th>
-                <th>DRB</th>
-                <th>TRB</th>
-                <th>AST</th>
-                <th>STL</th>
-                <th>BLK</th>
-                <th>TOV</th>
-                <th>PF</th>
-                <th>PTS</th>
+                {tableHead.map(item => <th key={item}>{item}</th>)}
               </tr>
             </thead>
             <tbody className={style.statsTable__type}>

@@ -72,7 +72,7 @@ export default function PageTeam() {
 
   return (
     <div className={style.wrapper}>
-      <Link to='/teams' className={style.back}><img src={backImage} alt="" /></Link>
+      {/* <Link to='/teams' className={style.back}><img src={backImage} alt="" /></Link> */}
       <select name="" id="" onChange={changeList} value={selectedYear} className={style.select}>
         <option className={style.select__option} value={'Choose season'} key={'Choose season'} >{'Choose season'}</option>
         {dataContext.seasons.map(year => (

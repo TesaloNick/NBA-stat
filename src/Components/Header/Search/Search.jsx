@@ -20,7 +20,7 @@ export default function Search(props) {
 
   useEffect(() => {
     if (searchedName.length >= 3) {
-      axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100`)
+      axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100&page=1`)
         .then(res => {
           dataContext.searchPlayersResult = res.data.data
         })
