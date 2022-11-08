@@ -1,0 +1,38 @@
+.statsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+
+  &__title {
+    font-size: 30px;
+    font-weight: 700;
+    text-align: left;
+    padding: 20px 0;
+  }
+
+  &__type {
+  }
+  &__row {
+  }
+
+  th,
+  td {
+    border: 1px solid white;
+    padding: 10px 2px;
+    letter-spacing: 1px;
+
+    a {
+      font-weight: bold;
+      text-decoration: underline;
+      color: #fff;
+    }
+
+    &:nth-of-type(2) {
+      width: 50px;
+    }
+  }
+
+  td {
+    text-align: center;
+  }
+}

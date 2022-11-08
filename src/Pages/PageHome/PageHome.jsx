@@ -8,13 +8,12 @@ import { Link } from 'react-router-dom'
 export default function PageHome() {
   const [dataGames, setDataGames] = useState(false)
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'))
-  // ${new Date().getFullYear()}-${+new Date().getMonth() < 10 ? '0' + new Date().getMonth() + 1 : new Date().getMonth() + 1}-${+new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()}`)
 
   useEffect(() => {
     axios.get(`https://www.balldontlie.io/api/v1/games?dates[]=${date}`)
       .then(res => setDataGames(res.data.data))
   }, [date])
-  // console.log(format(new Date(), 'yyyy-MM-dd'));
+
   function handleDate(e) {
     setDate(e.target.value)
   }
