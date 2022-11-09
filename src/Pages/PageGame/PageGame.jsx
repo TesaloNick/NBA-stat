@@ -24,8 +24,8 @@ export default function PageGame() {
           visitor_team_abbreviation: data.find(item => item.team.id === item.game.visitor_team_id).team.abbreviation,
           home_team_abbreviation: data.find(item => item.team.id === item.game.home_team_id).team.abbreviation,
         }
-        const visitor_team = data.filter(player => player.team.id === dataGame.visitor_team_id && player.min !== null)
-        const home_team = data.filter(player => player.team.id === dataGame.home_team_id && player.min !== null)
+        const visitor_team = data.filter(player => player.team.id === dataGame.visitor_team_id && player.min != false && player.min !== '0:00')
+        const home_team = data.filter(player => player.team.id === dataGame.home_team_id && player.min != false && player.min !== '0:00')
         setStats({
           home_team,
           visitor_team,

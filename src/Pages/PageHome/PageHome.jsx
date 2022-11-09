@@ -37,7 +37,7 @@ export default function PageHome() {
   return (
     <div className={style.wrapper}>
       <form action="" className={style.form}>
-        <div className={style.form__prev} onClick={() => changeDate('minus')}>Previous</div>
+        <div className={style.form__back} onClick={() => changeDate('minus')}>Back</div>
         <input type="date" value={date} min="1979-01-01" onChange={(e) => handleDate(e)} className={style.form__input} />
         <div className={style.form__next} onClick={() => changeDate('plus')}>Next</div>
       </form>

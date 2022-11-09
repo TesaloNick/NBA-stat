@@ -4,6 +4,35 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  &__back,
+  &__next {
+    font-size: 30px;
+    color: grey;
+    transition: 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      transition: 0.5s;
+    }
+  }
+  &__input {
+    width: 250px;
+    padding: 5px 10px;
+    font-size: 25px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  &__next {
+  }
+}
 .games {
   display: flex;
   flex-direction: column;
