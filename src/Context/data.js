@@ -6,6 +6,7 @@ for (let i = 2022; i >= 1979; i--) {
 }
 
 const contextData = createContext({
+  isMenuModalActive: false,
   seasons: seasonsList,
   teams: [
     { id: 1, abbreviation: "ATL", full_name: "Atlanta Hawks" },
@@ -40,5 +41,6 @@ const contextData = createContext({
     { id: 30, abbreviation: "WAS", full_name: "Washington Wizards" },
   ]
 })
+
 
 export default contextData

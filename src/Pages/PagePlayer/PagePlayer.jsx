@@ -5,6 +5,7 @@ import close from '../../assets/images/close.png'
 import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
+import sortDate from '../../Elements/SortDate';
 
 export default function PagePlayer() {
   const { id } = useParams()
@@ -66,21 +67,11 @@ export default function PagePlayer() {
   async function showDetailedStats() {
     axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`)
       .then(res => {
+        console.log(res.data.data);
         setSeasonInfo({
           isModal: true,
-          seasonStats: res.data.data
+          seasonStats: sortDate(res.data.data)
             .filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
-            .sort((a, b) => {
-              if (a.game.date.slice(0, 4) == b.game.date.slice(0, 4)) {
-                if (a.game.date.slice(5, 7) == b.game.date.slice(5, 7)) {
-                  return +a.game.date.slice(8, 10) - +b.game.date.slice(8, 10)
-                } else {
-                  return +a.game.date.slice(5, 7) - +b.game.date.slice(5, 7)
-                }
-              } else {
-                return +a.game.date.slice(0, 4) - +b.game.date.slice(0, 4)
-              }
-            })
         })
       })
   }
@@ -177,9 +168,8 @@ export default function PagePlayer() {
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
         <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
-          {/* <div className={style.modal__close}><img src={close} alt="close modal" /></div> */}
-          <h2>Detailed description of each game in season {selectedYear}</h2>
           <table className={style.statsTable}>
+            <caption>Detailed description of each game in season {selectedYear}</caption>
             <thead className={style.statsTable__type}>
               <tr className={style.statsTable__row}>
                 {tableHead.map(item => <th key={item}>{item}</th>)}

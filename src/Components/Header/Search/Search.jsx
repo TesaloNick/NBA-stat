@@ -49,7 +49,6 @@ export default function Search(props) {
       </div>
       {isActiveSearch ?
         <form className={style.search__active_wrapper} onSubmit={submitSearch}>
-          {/* <div className={`${style.search__close} ${style.active}`} onClick={toggleInputSearch}></div> */}
           <input className={style.search__input_active} type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} />
           <button className={style.search__search_button}>
             <img src={search} alt="" />
@@ -59,7 +58,6 @@ export default function Search(props) {
           </div>
         </form> :
         <form className={style.search__active_wrapper}>
-          {/* <div className={style.search__close} onClick={toggleInputSearch}></div> */}
           <input className={style.search__input} value={searchedName} type="text" ref={inputRef} onChange={changeSearchingValue} />
         </form>
       }

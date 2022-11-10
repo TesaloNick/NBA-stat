@@ -9,15 +9,31 @@ $black: black;
   max-width: 1200px;
   margin: auto;
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
   justify-content: space-between;
   align-items: center;
   gap: 40px;
   position: relative;
+
+  @media (max-width: 1230px) {
+    padding: 0 15px;
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  @media (max-width: 767px) {
+    gap: 10px;
+  }
+
+  @media (max-width: 650px) {
+    grid-template-columns: auto 1fr auto;
+  }
 }
 
 .logo {
   width: 40px;
-  // position: relative;
-  // top: 20px;
+
+  @media (max-width: 650px) {
+    width: 30px;
+  }
 }
