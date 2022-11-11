@@ -1,4 +1,14 @@
-.spinner {
-  color: white;
-  font-size: 20px;
+.loader {
+  margin: 0 0 2em;
+  height: 100px;
+  width: 20%;
+  padding: 1em;
+  margin: 0 auto 1em;
+  display: flex;
+  justify-content: center;
+}
+
+svg path,
+svg rect {
+  fill: #fff;
 }

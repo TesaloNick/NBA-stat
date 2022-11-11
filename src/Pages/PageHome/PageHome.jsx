@@ -50,7 +50,7 @@ export default function PageHome() {
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__name}>{game.visitor_team.full_name}</Link>
             {game.status !== 'Final' ?
               <div className={style.game__status}>{game.status}</div> :
-              <Link to={`/game/${game.id}`} className={style.game__status}>{game.visitor_team_score} : {game.home_team_score}</Link>
+              <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link>
             }
             <Link to={`/team/${game.home_team.id}`} className={style.game__name}>{game.home_team.full_name}</Link>
             <Link to={`/team/${game.home_team.id}`} className={style.game__team_logo}>
