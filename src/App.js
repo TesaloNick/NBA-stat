@@ -9,8 +9,6 @@ import contextData from './Context/data';
 function App() {
   const data = useContext(contextData)
 
-  // console.log(data);
-
   return (
     <div className='app'>
       <contextData.Provider value={data}>

@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import style from './PagePlayer.module.scss'
-import close from '../../assets/images/close.png'
 import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
