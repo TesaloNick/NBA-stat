@@ -5,19 +5,19 @@ import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
 import sortDate from '../../Elements/SortDate';
+import SelectSeason from '../../Elements/SelectSeason/SelectSeason';
 
 export default function PageTeam() {
   const { id } = useParams()
-  const [teamInfo, setTeamInfo] = useState(false)
-  // const [isStatExist, setIsStatExist] = useState(true)
   const [selectedYear, setSelectedYear] = useState('2022-2023')
+  const [teamInfo, setTeamInfo] = useState(false)
   const [seasonInfo, setSeasonInfo] = useState({
     isModal: false,
     seasonStats: []
   })
   const { isModal, seasonStats } = seasonInfo
   const { isStatExist, teamInfoSeason } = teamInfo
-  const dataContext = useContext(contextData)
+  // const dataContext = useContext(contextData)
   const tableHead = ['DATE', 'Visitor team', 'Score', '@', 'Score', 'Home team', 'Box Score', 'W/L']
 
   useEffect(() => {
@@ -56,12 +56,13 @@ export default function PageTeam() {
       })
   }, [selectedYear])
 
-  function changeList(event) {
-    setSelectedYear(event.target.value);
-  }
-
   async function showDetailedStats() {
     setSeasonInfo({ ...seasonInfo, isModal: true })
+  }
+
+
+  function changeSeason(event) {
+    setSelectedYear(event.target.value);
   }
 
   if (!teamInfo || !selectedYear) {
@@ -72,11 +73,7 @@ export default function PageTeam() {
 
   return (
     <div className={style.wrapper}>
-      <select name="" id="" onChange={changeList} value={selectedYear} className={style.select}>
-        {dataContext.seasons.map(year => (
-          <option className={style.select__option} value={year} key={year} >{year}</option>
-        ))}
-      </select>
+      <SelectSeason changeSeason={changeSeason} selectedYear={selectedYear} />
       <div className={style.team}>
         <div className={style.team__logo_wrapper}>
           <img className={style.team__logo} src={`/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />

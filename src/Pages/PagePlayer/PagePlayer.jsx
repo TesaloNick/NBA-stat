@@ -6,6 +6,7 @@ import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
 import { useSelector } from 'react-redux'
+import SelectSeason from '../../Elements/SelectSeason/SelectSeason';
 
 export default function PagePlayer() {
   const { id } = useParams()
@@ -19,7 +20,7 @@ export default function PagePlayer() {
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const { selectedYear, playerInfo, averageSeasonStat } = playerStat
   const { isModal, seasonStats } = seasonInfo
-  const getPlayerInfo = useSelector(state => state.player.player)
+  const getPlayerInfo = useSelector(state => state.player.players)
   console.log(getPlayerInfo);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function PagePlayer() {
     }
   }, [])
 
-  function changeList(event) {
+  function changeSeason(event) {
     setPlayerStat({
       ...playerStat,
       selectedYear: event.target.value
@@ -87,11 +88,7 @@ export default function PagePlayer() {
 
   return (
     <div className={style.wrapper}>
-      <select name="" id="" onChange={changeList} value={selectedYear} className={style.select} >
-        {dataContext.seasons.map(year => (
-          <option className={style.select__option} value={year} key={year} >{year}</option>
-        ))}
-      </select>
+      <SelectSeason changeSeason={changeSeason} selectedYear={selectedYear} />
       <div key={playerInfo.id} className={style.player}>
         <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo_wrapper}>
           <img src={`/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />

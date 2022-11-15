@@ -3,7 +3,7 @@ import style from './PageTeams.module.scss'
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner'
 import { Link } from 'react-router-dom';
-
+import Teams from '../../Elements/Teams/Teams';
 
 export default function PageTeams() {
   const [teams, setTeams] = useState(false)
@@ -52,6 +52,8 @@ export default function PageTeams() {
     return (<Spinner />)
   }
 
+  console.log(teams);
+
   return (
     <div className={style.wrapper}>
       <select name="" id="" onChange={changeList} value={selectType} className={style.select}>
@@ -59,36 +61,8 @@ export default function PageTeams() {
         <option className={style.select__option} value="division" >division</option>
       </select>
       {selectType === 'division' ?
-        teams.divisions.map(division => (
-          <div className={style.section} key={division.name}>
-            <div className={style.section__name}>{division.name}</div>
-            <div className={style.teams}>
-              {division.teams.map(team => (
-                <div className={style.teams__team} key={team.id}>
-                  <Link to={'/team/' + team.id} className={style.teams__logo_wrapper}>
-                    <img src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
-                  </Link>
-                  {/* <div className={style.teams__name}>{team.full_name}</div> */}
-                </div>
-              ))}
-            </div>
-          </div>
-        )) :
-        teams.conferences.map(conference => (
-          <div className={style.section} key={conference.name}>
-            <div className={style.section__name}>{conference.name}</div>
-            <div className={style.teams}>
-              {conference.teams.map(team => (
-                <div className={style.teams__team} key={team.id}>
-                  <Link to={'/team/' + team.id} className={style.teams__logo_wrapper}>
-                    <img src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
-                  </Link>
-                  {/* <div className={style.teams__name}>{team.full_name}</div> */}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))
+        <Teams collections={teams.divisions} /> :
+        <Teams collections={teams.conferences} />
       }
     </div>
   )
