@@ -6,11 +6,14 @@ import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
+import { useDispatch } from 'react-redux';
+import { addPlayer } from '../../store/playerData';
 
 export default function PageSearchResult() {
   const { searchedName } = useParams()
   const dataContext = useContext(contextData)
   const [playersInfo, setPlayersInfo] = useState(false)
+  const dispatch = useDispatch();
 
   // pagination
   const [currentItems, setCurrentItems] = useState(null);
@@ -42,6 +45,7 @@ export default function PageSearchResult() {
 
   function savePlayerInfo(playerInfo) {
     dataContext.searchedPlayer = playerInfo
+    dispatch(addPlayer(playerInfo))
   }
 
   if (!playersInfo || !currentItems) {
@@ -92,7 +96,6 @@ export default function PageSearchResult() {
                   </div>
                   <div className={style.player__text}><b>Team: </b>{player.team.abbreviation}</div>
                 </div>
-
               </Link>
             )) :
             <div className={style.wrong}>

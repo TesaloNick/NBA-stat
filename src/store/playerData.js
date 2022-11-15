@@ -3,18 +3,19 @@ import { createSlice } from '@reduxjs/toolkit';
 const playerData = createSlice({
   name: 'player',
   initialState: {
-    players: [],
+    player: [],
   },
   reducers: {
     addPlayer(state, action) {
-      state.players.push({
+      console.log(action);
+      state.player.push({
         id: new Date().toISOString(),
-        text: action.payload.text,
+        playerInfo: action.payload,
         completed: false,
       });
     },
     removePlayer(state, action) {
-      state.players = state.players.filter(player => player.id !== action.payload.id);
+      state.player = state.player.filter(player => player.id !== action.payload.id);
     }
   },
 });

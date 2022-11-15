@@ -48,9 +48,14 @@ export default function PageHome() {
               <img src={`/teams-logo-images/${game.visitor_team.abbreviation}-2023.png`} alt="" />
             </Link>
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__name}>{game.visitor_team.full_name}</Link>
-            {game.status !== 'Final' ?
-              <div className={style.game__status}>{game.status}</div> :
-              <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link>
+            {game.status === 'Final' ?
+              <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link> :
+              game.time !== '' ?
+                <Link to={`/game/${game.id}`} className={style.game__status_score}>
+                  <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
+                  <p>{`(${game.status})`}</p>
+                </Link> :
+                <div className={style.game__status}>{game.status}</div>
             }
             <Link to={`/team/${game.home_team.id}`} className={style.game__name}>{game.home_team.full_name}</Link>
             <Link to={`/team/${game.home_team.id}`} className={style.game__team_logo}>

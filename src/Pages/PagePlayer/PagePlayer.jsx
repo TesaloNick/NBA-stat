@@ -5,6 +5,7 @@ import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
+import { useSelector } from 'react-redux'
 
 export default function PagePlayer() {
   const { id } = useParams()
@@ -18,12 +19,15 @@ export default function PagePlayer() {
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const { selectedYear, playerInfo, averageSeasonStat } = playerStat
   const { isModal, seasonStats } = seasonInfo
+  const getPlayerInfo = useSelector(state => state.player.player)
+  console.log(getPlayerInfo);
 
   useEffect(() => {
     const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
     const requestAverageSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`);
 
-    if (!dataContext.searchedPlayer) {
+    if (getPlayerInfo.length === 0) {
+      console.log('not');
       axios.all([requestPlayerInfo, requestAverageSeasonStat])
         .then(axios.spread((...responses) => {
           const responsePlayerInfo = responses[0].data
@@ -36,13 +40,14 @@ export default function PagePlayer() {
           })
         }))
     } else {
+      console.log('yes');
       axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`)
         .then(response => {
           const responseAverageSeasonStat = response.data.data[0]
 
           setPlayerStat({
             selectedYear: '2022-2023',
-            playerInfo: dataContext.searchedPlayer,
+            playerInfo: getPlayerInfo[0].playerInfo,
             averageSeasonStat: responseAverageSeasonStat,
           })
         })
