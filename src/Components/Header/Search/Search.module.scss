@@ -4,6 +4,19 @@
   align-items: center;
   justify-content: flex-end;
 
+  &__image {
+    width: 30px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.form {
+  transition: 0.8s;
+
   &__input {
     position: absolute;
     right: 0;
@@ -44,10 +57,6 @@
     &::placeholder {
       color: grey;
     }
-  }
-
-  &__active_wrapper {
-    transition: 0.8s;
   }
 
   &__close_button {
@@ -101,14 +110,5 @@
     img {
       width: 100%;
     }
-  }
-
-  &__image_wrapper {
-    width: 30px;
-    cursor: pointer;
-  }
-
-  &__image {
-    width: 100%;
   }
 }

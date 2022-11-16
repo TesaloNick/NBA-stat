@@ -14,7 +14,7 @@ export default function Header() {
   function getModalValue(value) {
     setIsModalMenu(value);
   }
-  console.log(isModalMenu);
+  // console.log(isModalMenu);
 
   return (
     <header className={style.header}>

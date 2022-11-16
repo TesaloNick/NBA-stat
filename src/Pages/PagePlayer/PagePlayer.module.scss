@@ -23,7 +23,7 @@
   grid-template-rows: 240px;
   gap: 20px;
   align-items: center;
-  color: white;
+  // color: white;
 
   &__logo_wrapper {
     padding: 10px;
@@ -53,12 +53,12 @@
 
   &__name {
     font-size: 50px;
-    color: white;
+    // color: white;
   }
 
   &__text {
     font-size: 25px;
-    color: white;
+    // color: white;
   }
 }
 
@@ -74,21 +74,21 @@
   }
 
   &__detailed {
-    background-color: grey;
+    background-color: white;
     border-radius: 5px;
     padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    cursor: pointer;
 
     &_head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 24px;
-      border: 1px grey solid;
-      color: white;
-      cursor: pointer;
+      // border: 1px grey solid;
+      color: black;
       font-size: 30px;
     }
   }

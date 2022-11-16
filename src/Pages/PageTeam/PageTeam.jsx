@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import style from './PageTeam.module.scss'
 import axios from 'axios';
-import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
 import sortDate from '../../Elements/SortDate';
-import SelectSeason from '../../Elements/SelectSeason/SelectSeason';
+import SelectSeason from '../../Elements/Select/Select';
+import { useSelector } from 'react-redux'
 
 export default function PageTeam() {
   const { id } = useParams()
@@ -17,8 +17,8 @@ export default function PageTeam() {
   })
   const { isModal, seasonStats } = seasonInfo
   const { isStatExist, teamInfoSeason } = teamInfo
-  // const dataContext = useContext(contextData)
   const tableHead = ['DATE', 'Visitor team', 'Score', '@', 'Score', 'Home team', 'Box Score', 'W/L']
+  const seasons = useSelector(state => state.seasons.seasons)
 
   useEffect(() => {
     axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01`)
@@ -60,7 +60,6 @@ export default function PageTeam() {
     setSeasonInfo({ ...seasonInfo, isModal: true })
   }
 
-
   function changeSeason(event) {
     setSelectedYear(event.target.value);
   }
@@ -73,7 +72,7 @@ export default function PageTeam() {
 
   return (
     <div className={style.wrapper}>
-      <SelectSeason changeSeason={changeSeason} selectedYear={selectedYear} />
+      <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div className={style.team}>
         <div className={style.team__logo_wrapper}>
           <img className={style.team__logo} src={`/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
@@ -112,7 +111,10 @@ export default function PageTeam() {
             <tbody className={style.statsTable__type}>
               {seasonStats.map(game => (
                 <tr className={style.statsTable__row} key={game.id}>
-                  <td><Link to={`/game/${game.id}`}>{game.date.slice(0, 10)}</Link></td>
+                  <td>{game.status === 'Final' ?
+                    <Link to={`/game/${game.id}`}>{game.date.slice(0, 10)}</Link> :
+                    game.date.slice(0, 10)
+                  }</td>
                   <td>{game.visitor_team.id === id ?
                     game.visitor_team.full_name :
                     <Link to={`/team/${game.visitor_team.id}`}>{game.visitor_team.full_name}</Link>
@@ -128,7 +130,11 @@ export default function PageTeam() {
                     game.home_team.full_name :
                     <Link to={`/team/${game.home_team.id}`}>{game.home_team.full_name}</Link>
                   }</td>
-                  <td><Link to={`/game/${game.id}`}>Box Score</Link></td>
+                  <td>{game.status === 'Final' ?
+                    <Link to={`/game/${game.id}`}>Box Score</Link> :
+                    'Box Score'
+                  }
+                  </td>
                   <td>{
                     id == game.visitor_team.id && game.visitor_team_score > game.home_team_score ?
                       'W' : id == game.home_team.id && game.home_team_score > game.visitor_team_score ?

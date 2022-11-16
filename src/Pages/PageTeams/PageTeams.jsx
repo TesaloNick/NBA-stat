@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import style from './PageTeams.module.scss'
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner'
-import { Link } from 'react-router-dom';
 import Teams from '../../Elements/Teams/Teams';
+import Select from '../../Elements/Select/Select';
 
 export default function PageTeams() {
   const [teams, setTeams] = useState(false)
-  const [selectType, setSelectType] = useState("division")
+  const [selectedType, setSelectedType] = useState("division")
 
   useEffect(() => {
     axios.get(`https://www.balldontlie.io/api/v1/teams?per_page=30`)
@@ -44,8 +44,8 @@ export default function PageTeams() {
       })
   }, [])
 
-  function changeList(event) {
-    setSelectType(event.target.value);
+  function changeType(event) {
+    setSelectedType(event.target.value);
   }
 
   if (!teams) {
@@ -56,11 +56,8 @@ export default function PageTeams() {
 
   return (
     <div className={style.wrapper}>
-      <select name="" id="" onChange={changeList} value={selectType} className={style.select}>
-        <option className={style.select__option} value="conference">conference</option>
-        <option className={style.select__option} value="division" >division</option>
-      </select>
-      {selectType === 'division' ?
+      <Select change={changeType} value={selectedType} list={['conference', 'division']} />
+      {selectedType === 'division' ?
         <Teams collections={teams.divisions} /> :
         <Teams collections={teams.conferences} />
       }

@@ -8,7 +8,7 @@ export default function Menu({ getValue, value }) {
     // setIsModal(!value)
     getValue(!value)
   }
-  console.log(value);
+  // console.log(value);
   return (
     <div className={value ? `${style.active} ${style.menu}` : style.menu} onClick={clickMenu}>
       <span></span>

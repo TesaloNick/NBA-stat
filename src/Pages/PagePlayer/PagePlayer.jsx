@@ -6,7 +6,7 @@ import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
 import { useSelector } from 'react-redux'
-import SelectSeason from '../../Elements/SelectSeason/SelectSeason';
+import SelectSeason from '../../Elements/Select/Select';
 
 export default function PagePlayer() {
   const { id } = useParams()
@@ -21,7 +21,8 @@ export default function PagePlayer() {
   const { selectedYear, playerInfo, averageSeasonStat } = playerStat
   const { isModal, seasonStats } = seasonInfo
   const getPlayerInfo = useSelector(state => state.player.players)
-  console.log(getPlayerInfo);
+  const seasons = useSelector(state => state.seasons.seasons)
+  const teams = useSelector(state => state.teams.teams)
 
   useEffect(() => {
     const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
@@ -84,11 +85,11 @@ export default function PagePlayer() {
   if (!playerStat) {
     return (<Spinner />)
   }
-  console.log(playerStat, seasonInfo);
+  console.log(teams);
 
   return (
     <div className={style.wrapper}>
-      <SelectSeason changeSeason={changeSeason} selectedYear={selectedYear} />
+      <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div key={playerInfo.id} className={style.player}>
         <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo_wrapper}>
           <img src={`/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />
@@ -183,8 +184,8 @@ export default function PagePlayer() {
                     <Link to={`/game/${game.game.id}`}>{game.game.date.slice(0, 10)}</Link>
                   </td>
                   <td>{game.team.id === game.game.home_team_id ?
-                    (<Link to={`/team/${game.game.visitor_team_id}`}>{dataContext.teams.find(item => item.id === game.game.visitor_team_id).abbreviation}</Link>) :
-                    (<Link to={`/team/${game.game.home_team_id}`}>{dataContext.teams.find(item => item.id === game.game.home_team_id).abbreviation}</Link>)
+                    (<Link to={`/team/${game.game.visitor_team_id}`}>{teams.find(item => item.id === game.game.visitor_team_id).abbreviation}</Link>) :
+                    (<Link to={`/team/${game.game.home_team_id}`}>{teams.find(item => item.id === game.game.home_team_id).abbreviation}</Link>)
                   }</td>
                   <td>{game.min}</td>
                   <td>{(game.fgm - game.fg3m).toFixed(0)}</td>
