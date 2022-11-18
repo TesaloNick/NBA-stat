@@ -40,10 +40,8 @@ export default function PagePlayers() {
     <div className={style.wrapper}>
       <h1>Find Player</h1>
       <form className={style.form} onSubmit={submitSearch}>
-        <input className={style.form__input_active} type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} />
-        {/* <button className={style.form__search_button}>
-          <img src={search} alt="" />
-        </button> */}
+        <input className={style.form__input} type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} />
+        <button className={style.form__button}>Search</button>
         {/* <div className={style.form__close_button} onClick={toggleInputSearch}>
           <img src={close} alt="" />
         </div> */}

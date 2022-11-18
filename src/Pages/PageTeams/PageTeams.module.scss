@@ -1,11 +1,13 @@
 $black: rgba(0, 0, 0, 0.8);
 
 .wrapper {
-  padding: 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   color: white;
+
+  // @media (max-width: 1230px) {
+  //   gap: 10px;
+  // }
 }
 
 .select {

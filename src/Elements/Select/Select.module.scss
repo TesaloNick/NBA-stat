@@ -5,6 +5,15 @@
   border-radius: 5px;
   border: 1px grey solid;
   color: black;
+
+  @media (max-width: 1230px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 650px) {
+    font-size: 16px;
+  }
+
   &__option {
   }
 }

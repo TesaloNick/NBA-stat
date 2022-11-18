@@ -1,11 +1,16 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 
   &__name {
     font-size: 30px;
     text-align: center;
+    padding: 10px 0;
+
+    @media (max-width: 650px) {
+      font-size: 20px;
+      padding: 5px 0;
+    }
   }
 }
 
@@ -13,6 +18,14 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+
+  @media (max-width: 1230px) {
+    gap: 10px;
+  }
+
+  @media (max-width: 650px) {
+    gap: 5px;
+  }
 
   &__team {
     display: flex;
@@ -27,6 +40,14 @@
     padding: 15px;
     background-color: #fff;
     border-radius: 5px;
+
+    @media (max-width: 1230px) {
+      padding: 10px;
+    }
+
+    @media (max-width: 650px) {
+      padding: 5px;
+    }
 
     &:hover {
       -webkit-box-shadow: 0px 0px 20px 22px rgba(255, 255, 255, 0.2);

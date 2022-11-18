@@ -3,6 +3,10 @@
   flex-direction: column;
   height: 100%;
   gap: 20px;
+
+  @media (max-width: 1230px) {
+    gap: 10px;
+  }
 }
 
 .players_wrapper {
@@ -13,7 +17,10 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: min-content;
   gap: 10px;
-  // flex: 1 1 auto;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .player {
@@ -27,6 +34,12 @@
   padding: 10px;
   background: rgba(255, 255, 255, 0.1);
   position: relative;
+  font-size: 20px;
+
+  @media (max-width: 1230px) {
+    grid-template-columns: 100px auto;
+    font-size: 16px;
+  }
 
   &::after {
     content: "";
@@ -76,7 +89,6 @@
   }
 
   &__text {
-    font-size: 20px;
   }
 }
 

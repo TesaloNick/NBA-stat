@@ -7,14 +7,14 @@
     a {
       display: block;
       padding: 10px 15px;
-      background-color: grey;
+      background-color: #aaaaaa;
       color: black;
       font-size: 20px;
       border-radius: 5px;
       cursor: pointer;
 
       &:hover {
-        background-color: #b5b5b5;
+        background-color: #cccccc;
       }
     }
   }

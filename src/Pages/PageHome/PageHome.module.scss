@@ -4,6 +4,10 @@
   flex-direction: column;
   gap: 20px;
   line-height: 1.2;
+
+  @media (max-width: 1230px) {
+    gap: 10px;
+  }
 }
 
 .form {

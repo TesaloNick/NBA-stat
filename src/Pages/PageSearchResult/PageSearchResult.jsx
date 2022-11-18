@@ -76,22 +76,22 @@ export default function PageSearchResult() {
                 </div>
                 <div className={style.player__info}>
                   <div className={style.player__text}><b>Name:</b> {`${player.first_name} ${player.last_name}`}</div>
-                  <div className={style.player__text}><b>Height:</b>
+                  <div className={style.player__text}><b>Height: </b>
                     {player.height_feet ?
-                      ` ${player.height_feet}-${player.height_inches}` :
-                      ' -'
+                      `${player.height_feet}-${player.height_inches}` :
+                      '-'
                     }
                   </div>
-                  <div className={style.player__text}><b>Weight:</b>
+                  <div className={style.player__text}><b>Weight: </b>
                     {player.weight_pounds ?
-                      ` ${player.weight_pounds}lb` :
-                      ' -'
+                      `${player.weight_pounds}lb` :
+                      '-'
                     }
                   </div>
-                  <div className={style.player__text}><b>Position:</b>
+                  <div className={style.player__text}><b>Position: </b>
                     {player.position ?
-                      ` ${player.position}` :
-                      ' -'
+                      player.position :
+                      '-'
                     }
                   </div>
                   <div className={style.player__text}><b>Team: </b>{player.team.abbreviation}</div>

@@ -3,6 +3,10 @@
   flex-direction: column;
   gap: 20px;
   color: white;
+
+  @media (max-width: 1230px) {
+    gap: 10px;
+  }
 }
 
 .back {
