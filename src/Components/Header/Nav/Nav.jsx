@@ -14,8 +14,6 @@ export default function Nav({ isModalMenu, getValue }) {
       <ul className={style.nav__list}>
         <NavLink to='/' end onClick={clickMenu} className={({ isActive }) => isActive ? style.nav__item_active : style.nav__item}>Home</NavLink>
         <NavLink to='/teams' onClick={clickMenu} className={({ isActive }) => isActive ? style.nav__item_active : style.nav__item}>Teams</NavLink>
-        {/* <NavLink to='/seasons'  onClick={clickMenu} className={({ isActive }) => isActive ? style.nav__item_active : style.nav__item}>Seasons</NavLink> */}
-        {/* <NavLink to='/standing' onClick={clickMenu} className={({ isActive }) => isActive ? style.nav__item_active : style.nav__item}>Standing</NavLink> */}
         <NavLink to='/players' onClick={clickMenu} className={({ isActive }) => isActive ? style.nav__item_active : style.nav__item}>Players</NavLink>
       </ul>
     </nav >

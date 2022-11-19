@@ -3,6 +3,7 @@ import playerData from './playerData';
 import teamData from './teamData';
 import seasons from './seasons';
 import teams from './teams';
+import playersSearchResult from './playersSearchResult';
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     team: teamData,
     teams: teams,
     seasons: seasons,
+    playersSearchResult: playersSearchResult,
   },
 });

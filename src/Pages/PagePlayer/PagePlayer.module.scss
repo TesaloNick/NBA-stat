@@ -27,7 +27,6 @@
   grid-template-rows: 240px;
   gap: 20px;
   align-items: center;
-  // color: white;
 
   &__logo_wrapper {
     padding: 10px;
@@ -57,12 +56,10 @@
 
   &__name {
     font-size: 50px;
-    // color: white;
   }
 
   &__text {
     font-size: 25px;
-    // color: white;
   }
 }
 
@@ -91,7 +88,6 @@
       justify-content: space-between;
       align-items: center;
       font-size: 24px;
-      // border: 1px grey solid;
       color: black;
       font-size: 30px;
     }
@@ -159,7 +155,6 @@
   &__close {
     width: 30px;
     position: absolute;
-    // top: -25px;
     z-index: 2;
     right: -25px;
     background-color: #fff;

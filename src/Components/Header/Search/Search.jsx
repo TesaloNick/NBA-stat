@@ -4,24 +4,15 @@ import close from '../../../assets/images/close.png'
 import style from './Search.module.scss'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-import contextData from '../../../Context/data';
+import { useDispatch } from 'react-redux';
+import { changePlayersSearchResult } from '../../../store/playersSearchResult';
 
 export default function Search() {
   const [isActiveSearch, setIsActiveSearch] = useState(false)
   const [searchedName, setSearchedName] = useState('')
   const inputRef = useRef(null)
-  const dataContext = useContext(contextData)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (searchedName.length >= 3) {
-      axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100&page=1`)
-        .then(res => {
-          dataContext.searchPlayersResult = res.data.data
-        })
-    }
-  }, [searchedName])
 
   function toggleInputSearch(event) {
     event.stopPropagation()
@@ -35,6 +26,11 @@ export default function Search() {
 
   function submitSearch(event) {
     event.preventDefault()
+    axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100&page=1`)
+      .then(res => {
+        dispatch(changePlayersSearchResult(res.data.data))
+      })
+
     navigate(`/searching/${searchedName}`)
     setIsActiveSearch(!isActiveSearch)
   }

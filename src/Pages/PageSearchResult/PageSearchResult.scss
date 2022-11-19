@@ -3,6 +3,10 @@
   justify-content: center;
   gap: 10px;
 
+  @media (max-width: 650px) {
+    gap: 5px;
+  }
+
   li {
     a {
       display: block;
@@ -12,6 +16,14 @@
       font-size: 20px;
       border-radius: 5px;
       cursor: pointer;
+
+      @media (max-width: 650px) {
+        padding: 5px 10px;
+      }
+
+      @media (max-width: 450px) {
+        padding: 5px 7px;
+      }
 
       &:hover {
         background-color: #cccccc;

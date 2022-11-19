@@ -1,7 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import style from './PagePlayer.module.scss'
-import contextData from '../../Context/data';
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
@@ -10,7 +9,6 @@ import SelectSeason from '../../Elements/Select/Select';
 
 export default function PagePlayer() {
   const { id } = useParams()
-  const dataContext = useContext(contextData)
   const [playerStat, setPlayerStat] = useState(false)
   const [seasonInfo, setSeasonInfo] = useState({
     isModal: false,
@@ -20,37 +18,38 @@ export default function PagePlayer() {
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const { selectedYear, playerInfo, averageSeasonStat } = playerStat
   const { isModal, seasonStats } = seasonInfo
-  const getPlayerInfo = useSelector(state => state.player.players)
+  const getPlayerInfo = useSelector(state => state.player.players.filter(item => +item.id === +id))
   const seasons = useSelector(state => state.seasons.seasons)
   const teams = useSelector(state => state.teams.teams)
 
+  // console.log(seasonStats);
   useEffect(() => {
     const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
     const requestAverageSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`);
 
     if (getPlayerInfo.length === 0) {
-      console.log('not');
+      // console.log('api 2');
       axios.all([requestPlayerInfo, requestAverageSeasonStat])
         .then(axios.spread((...responses) => {
-          const responsePlayerInfo = responses[0].data
-          const responseAverageSeasonStat = responses[1].data.data[0]
+          const resPlayerInfo = responses[0].data
+          const resAverageSeasonStat = responses[1].data.data[0]
 
           setPlayerStat({
             selectedYear: '2022-2023',
-            playerInfo: responsePlayerInfo,
-            averageSeasonStat: responseAverageSeasonStat
+            playerInfo: resPlayerInfo,
+            averageSeasonStat: resAverageSeasonStat
           })
         }))
     } else {
-      console.log('yes');
+      // console.log('api 1'); 
       axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`)
         .then(response => {
-          const responseAverageSeasonStat = response.data.data[0]
+          const resAverageSeasonStat = response.data.data[0]
 
           setPlayerStat({
             selectedYear: '2022-2023',
             playerInfo: getPlayerInfo[0].playerInfo,
-            averageSeasonStat: responseAverageSeasonStat,
+            averageSeasonStat: resAverageSeasonStat,
           })
         })
     }
@@ -73,11 +72,28 @@ export default function PagePlayer() {
   async function showDetailedStats() {
     axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`)
       .then(res => {
-        console.log(res.data.data);
+        const seasonStats = sortDate(res.data.data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
+        const numberOfGames = seasonStats.length
+
+        var averageStats = {};
+        seasonStats.forEach((item, index) => {
+          for (var p in item) {
+            if (item.hasOwnProperty(p) && p !== 'player' && p !== 'game' && p !== 'team' && p !== 'id' && p !== 'fg3_pct' && p !== 'fg_pct' && p !== 'ft_pct') {
+              console.log(index === numberOfGames - 1);
+              if (index === numberOfGames - 1) {
+                averageStats[p] = (averageStats[p] + item[p]) / numberOfGames;
+              } else {
+                averageStats[p] = averageStats[p] || 0;
+                averageStats[p] += +item[p];
+              }
+            }
+          }
+        });
+        console.log(averageStats);
+
         setSeasonInfo({
           isModal: true,
-          seasonStats: sortDate(res.data.data)
-            .filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
+          seasonStats: seasonStats
         })
       })
   }
@@ -85,7 +101,6 @@ export default function PagePlayer() {
   if (!playerStat) {
     return (<Spinner />)
   }
-  console.log(teams);
 
   return (
     <div className={style.wrapper}>
