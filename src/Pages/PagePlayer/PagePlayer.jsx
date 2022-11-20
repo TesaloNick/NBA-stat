@@ -9,98 +9,97 @@ import SelectSeason from '../../Elements/Select/Select';
 
 export default function PagePlayer() {
   const { id } = useParams()
-  const [playerStat, setPlayerStat] = useState(false)
-  const [seasonInfo, setSeasonInfo] = useState({
+  const [selectedYear, setSelectedYear] = useState('2022-2023')
+  const [dataStats, setDataStats] = useState({
     isModal: false,
     seasonStats: []
   })
   const averageTableHead = ['Season', 'G', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
-  const { selectedYear, playerInfo, averageSeasonStat } = playerStat
-  const { isModal, seasonStats } = seasonInfo
+  const { playerInfo, averageSeasonStat, isModal, seasonStats } = dataStats
   const getPlayerInfo = useSelector(state => state.player.players.filter(item => +item.id === +id))
   const seasons = useSelector(state => state.seasons.seasons)
   const teams = useSelector(state => state.teams.teams)
 
-  // console.log(seasonStats);
   useEffect(() => {
     const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
-    const requestAverageSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`);
+    const requestAverageSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`);
 
     if (getPlayerInfo.length === 0) {
       // console.log('api 2');
       axios.all([requestPlayerInfo, requestAverageSeasonStat])
         .then(axios.spread((...responses) => {
           const resPlayerInfo = responses[0].data
-          const resAverageSeasonStat = responses[1].data.data[0]
-
-          setPlayerStat({
-            selectedYear: '2022-2023',
+          const data = responses[1].data.data
+          setDataStats({
+            ...dataStats,
             playerInfo: resPlayerInfo,
-            averageSeasonStat: resAverageSeasonStat
+            averageSeasonStat: getAverageStat(data).averageSeasonStat,
+            seasonStats: getAverageStat(data).seasonStats
           })
         }))
     } else {
-      // console.log('api 1'); 
-      axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2022&player_ids[]=${id}`)
-        .then(response => {
-          const resAverageSeasonStat = response.data.data[0]
+      // console.log('api 1');
+      axios.get(requestAverageSeasonStat)
+        .then(res => {
+          const data = res.data.data
 
-          setPlayerStat({
-            selectedYear: '2022-2023',
-            playerInfo: getPlayerInfo[0].playerInfo,
-            averageSeasonStat: resAverageSeasonStat,
+          setDataStats({
+            ...dataStats,
+            averageSeasonStat: getAverageStat(data).averageSeasonStat,
+            seasonStats: getAverageStat(data).seasonStats
           })
         })
     }
   }, [])
 
+  function getAverageStat(data) {
+    const seasonStats = sortDate(data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
+    const numberOfGames = seasonStats.length
+
+    var averageStats = {};
+    seasonStats.forEach((gameStats, index) => {
+      for (var p in gameStats) {
+        if (gameStats.hasOwnProperty(p) && p !== 'player' && p !== 'game' && p !== 'team' && p !== 'id' && p !== 'fg3_pct' && p !== 'fg_pct' && p !== 'ft_pct') {
+          if (index === numberOfGames - 1) {
+            averageStats[p] = (averageStats[p] + +gameStats[p]) / numberOfGames;
+            averageStats.games_played = numberOfGames
+          } else {
+            averageStats[p] = averageStats[p] || 0;
+            averageStats[p] += +gameStats[p];
+          }
+        }
+      }
+    });
+
+    return {
+      averageSeasonStat: averageStats,
+      seasonStats: seasonStats
+    }
+  }
+
   function changeSeason(event) {
-    setPlayerStat({
-      ...playerStat,
-      selectedYear: event.target.value
-    })
+    setSelectedYear(event.target.value)
 
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${event.target.value.slice(0, 4)}&player_ids[]=${id}`)
-      .then(res => setPlayerStat({
-        ...playerStat,
-        selectedYear: event.target.value,
+      .then(res => setDataStats({
+        ...dataStats,
         averageSeasonStat: res.data.data[0],
       }))
   }
 
   async function showDetailedStats() {
-    axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`)
-      .then(res => {
-        const seasonStats = sortDate(res.data.data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
-        const numberOfGames = seasonStats.length
-
-        var averageStats = {};
-        seasonStats.forEach((item, index) => {
-          for (var p in item) {
-            if (item.hasOwnProperty(p) && p !== 'player' && p !== 'game' && p !== 'team' && p !== 'id' && p !== 'fg3_pct' && p !== 'fg_pct' && p !== 'ft_pct') {
-              console.log(index === numberOfGames - 1);
-              if (index === numberOfGames - 1) {
-                averageStats[p] = (averageStats[p] + item[p]) / numberOfGames;
-              } else {
-                averageStats[p] = averageStats[p] || 0;
-                averageStats[p] += +item[p];
-              }
-            }
-          }
-        });
-        console.log(averageStats);
-
-        setSeasonInfo({
-          isModal: true,
-          seasonStats: seasonStats
-        })
-      })
+    setDataStats({
+      ...dataStats,
+      isModal: true,
+    })
   }
 
-  if (!playerStat) {
+  if (!playerInfo || !seasonStats) {
     return (<Spinner />)
   }
+
+  console.log(dataStats);
 
   return (
     <div className={style.wrapper}>
@@ -144,18 +143,18 @@ export default function PagePlayer() {
               </tbody>
               <tbody className={style.averageTable__type}>
                 <tr className={style.averageTable__row}>
-                  <td>{averageSeasonStat.season}-{+averageSeasonStat.season + 1}</td>
+                  <td>{selectedYear}</td>
                   <td>{averageSeasonStat.games_played.toFixed(0)}</td>
-                  <td>{averageSeasonStat.min}</td>
+                  <td>{averageSeasonStat.min.toFixed(0)}:{(averageSeasonStat.min % 1 * 60).toFixed(0)}</td>
                   <td>{(averageSeasonStat.fgm - averageSeasonStat.fg3m).toFixed(1)}</td>
                   <td>{(averageSeasonStat.fga - averageSeasonStat.fg3a).toFixed(1)}</td>
                   <td>{((averageSeasonStat.fgm - averageSeasonStat.fg3m) / (averageSeasonStat.fga - averageSeasonStat.fg3a)).toFixed(2)}</td>
                   <td>{averageSeasonStat.fg3m.toFixed(1)}</td>
                   <td>{averageSeasonStat.fg3a.toFixed(1)}</td>
-                  <td>{(averageSeasonStat.fg3_pct).toFixed(2)}</td>
+                  <td>{(averageSeasonStat.fg3m / averageSeasonStat.fg3a).toFixed(2)}</td>
                   <td>{averageSeasonStat.ftm.toFixed(1)}</td>
                   <td>{averageSeasonStat.fta.toFixed(1)}</td>
-                  <td>{(averageSeasonStat.ft_pct).toFixed(2)}</td>
+                  <td>{(averageSeasonStat.ftm / averageSeasonStat.fta).toFixed(2)}</td>
                   <td>{averageSeasonStat.oreb.toFixed(1)}</td>
                   <td>{averageSeasonStat.dreb.toFixed(1)}</td>
                   <td>{averageSeasonStat.reb.toFixed(1)}</td>
@@ -183,7 +182,7 @@ export default function PagePlayer() {
         isModal ?
           `${style.modal} ${style.active}` :
           style.modal
-      } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
+      } onClick={() => setDataStats({ ...dataStats, isModal: false })}>
         <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
           <table className={style.statsTable}>
             <caption>Detailed description of each game in season {selectedYear}</caption>
@@ -205,7 +204,10 @@ export default function PagePlayer() {
                   <td>{game.min}</td>
                   <td>{(game.fgm - game.fg3m).toFixed(0)}</td>
                   <td>{(game.fga - game.fg3a).toFixed(0)}</td>
-                  <td>{(game.fga - game.fg3a) !== 0 ? ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) : '0.00'}</td>
+                  <td>{(game.fga - game.fg3a) !== 0 ?
+                    ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) :
+                    '0.00'
+                  }</td>
                   <td>{game.fg3m.toFixed(0)}</td>
                   <td>{game.fg3a.toFixed(0)}</td>
                   <td>{game.fg3_pct.toFixed(2)}</td>
