@@ -16,7 +16,7 @@ export default function PageGame() {
     axios.get(`https://www.balldontlie.io/api/v1/stats?game_ids[]=${id}&per_page=100`)
       .then(res => {
         const data = res.data.data
-        console.log(res.data.data);
+
         const dataGame = {
           ...data[0].game,
           visitor_team_full_name: data.find(item => item.team.id === item.game.visitor_team_id).team.full_name,
@@ -33,8 +33,6 @@ export default function PageGame() {
         })
       })
   }, [])
-
-  console.log(stats);
 
   if (!stats) {
     return (<Spinner />)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import style from './PagePlayer.module.scss'
+import close from '../../assets/images/close.png'
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
@@ -14,7 +15,7 @@ export default function PagePlayer() {
     isModal: false,
     seasonStats: []
   })
-  const averageTableHead = ['Season', 'G', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
+  const averageTableHead = ['Season', 'G', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const { playerInfo, averageSeasonStat, isModal, seasonStats } = dataStats
   const getPlayerInfo = useSelector(state => state.player.players.filter(item => +item.id === +id))
@@ -23,11 +24,10 @@ export default function PagePlayer() {
 
   useEffect(() => {
     const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
-    const requestAverageSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${+selectedYear.slice(0, 4) + 1}-07-01&postseason=false`);
+    const requestSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${selectedYear.slice(5, 9)}-07-01&postseason=false`);
 
     if (getPlayerInfo.length === 0) {
-      // console.log('api 2');
-      axios.all([requestPlayerInfo, requestAverageSeasonStat])
+      axios.all([requestPlayerInfo, requestSeasonStat])
         .then(axios.spread((...responses) => {
           const resPlayerInfo = responses[0].data
           const data = responses[1].data.data
@@ -39,19 +39,27 @@ export default function PagePlayer() {
           })
         }))
     } else {
-      // console.log('api 1');
-      axios.get(requestAverageSeasonStat)
-        .then(res => {
-          const data = res.data.data
+      getFullStat(selectedYear)
+    }
+  }, [])
 
+  async function getFullStat(season) {
+    axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${season.slice(0, 4)}-10-01&end_date=${season.slice(5, 9)}-07-01&postseason=false`)
+      .then(res => {
+        const data = res.data.data
+        data.length === 0 ?
           setDataStats({
             ...dataStats,
+            averageSeasonStat: false,
+          }) :
+          setDataStats({
+            ...dataStats,
+            playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
             averageSeasonStat: getAverageStat(data).averageSeasonStat,
             seasonStats: getAverageStat(data).seasonStats
           })
-        })
-    }
-  }, [])
+      })
+  }
 
   function getAverageStat(data) {
     const seasonStats = sortDate(data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
@@ -80,12 +88,7 @@ export default function PagePlayer() {
 
   function changeSeason(event) {
     setSelectedYear(event.target.value)
-
-    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${event.target.value.slice(0, 4)}&player_ids[]=${id}`)
-      .then(res => setDataStats({
-        ...dataStats,
-        averageSeasonStat: res.data.data[0],
-      }))
+    getFullStat(event.target.value)
   }
 
   async function showDetailedStats() {
@@ -99,13 +102,11 @@ export default function PagePlayer() {
     return (<Spinner />)
   }
 
-  console.log(dataStats);
-
   return (
     <div className={style.wrapper}>
       <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
-      <div key={playerInfo.id} className={style.player}>
-        <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo_wrapper}>
+      <div className={style.player}>
+        <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo}>
           <img src={`/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />
         </Link>
         <div className={style.player__info}>
@@ -133,49 +134,49 @@ export default function PagePlayer() {
       </div>
       <div className={style.stat}>
         {averageSeasonStat ?
-          <div className={style.stat__average}>
-            <table className={style.averageTable}>
-              <caption className={style.averageTable__title}>Average stat in season {averageSeasonStat.season}-{+averageSeasonStat.season + 1}</caption>
-              <tbody className={style.averageTable__type}>
-                <tr className={style.averageTable__row}>
-                  {averageTableHead.map(item => <th key={item}>{item}</th>)}
-                </tr>
-              </tbody>
-              <tbody className={style.averageTable__type}>
-                <tr className={style.averageTable__row}>
-                  <td>{selectedYear}</td>
-                  <td>{averageSeasonStat.games_played.toFixed(0)}</td>
-                  <td>{averageSeasonStat.min.toFixed(0)}:{(averageSeasonStat.min % 1 * 60).toFixed(0)}</td>
-                  <td>{(averageSeasonStat.fgm - averageSeasonStat.fg3m).toFixed(1)}</td>
-                  <td>{(averageSeasonStat.fga - averageSeasonStat.fg3a).toFixed(1)}</td>
-                  <td>{((averageSeasonStat.fgm - averageSeasonStat.fg3m) / (averageSeasonStat.fga - averageSeasonStat.fg3a)).toFixed(2)}</td>
-                  <td>{averageSeasonStat.fg3m.toFixed(1)}</td>
-                  <td>{averageSeasonStat.fg3a.toFixed(1)}</td>
-                  <td>{(averageSeasonStat.fg3m / averageSeasonStat.fg3a).toFixed(2)}</td>
-                  <td>{averageSeasonStat.ftm.toFixed(1)}</td>
-                  <td>{averageSeasonStat.fta.toFixed(1)}</td>
-                  <td>{(averageSeasonStat.ftm / averageSeasonStat.fta).toFixed(2)}</td>
-                  <td>{averageSeasonStat.oreb.toFixed(1)}</td>
-                  <td>{averageSeasonStat.dreb.toFixed(1)}</td>
-                  <td>{averageSeasonStat.reb.toFixed(1)}</td>
-                  <td>{averageSeasonStat.ast.toFixed(1)}</td>
-                  <td>{averageSeasonStat.stl.toFixed(1)}</td>
-                  <td>{averageSeasonStat.blk.toFixed(1)}</td>
-                  <td>{averageSeasonStat.turnover.toFixed(1)}</td>
-                  <td>{averageSeasonStat.pf.toFixed(1)}</td>
-                  <td>{averageSeasonStat.pts.toFixed(1)}</td>
-                </tr>
-              </tbody>
-            </table>
+          <>
+            <div className={style.stat__average}>
+              <table className={style.averageTable}>
+                <caption className={style.averageTable__title}>Average stat in season {selectedYear}</caption>
+                <tbody className={style.averageTable__type}>
+                  <tr className={style.averageTable__row}>
+                    {averageTableHead.map(item => <th key={item}>{item}</th>)}
+                  </tr>
+                </tbody>
+                <tbody className={style.averageTable__type}>
+                  <tr className={style.averageTable__row}>
+                    <td>{selectedYear}</td>
+                    <td>{averageSeasonStat.games_played.toFixed(0)}</td>
+                    {/* <td>{averageSeasonStat.min.toFixed(0)}:{(averageSeasonStat.min % 1 * 60).toFixed(0)}</td> */}
+                    <td>{(averageSeasonStat.fgm - averageSeasonStat.fg3m).toFixed(1)}</td>
+                    <td>{(averageSeasonStat.fga - averageSeasonStat.fg3a).toFixed(1)}</td>
+                    <td>{((averageSeasonStat.fgm - averageSeasonStat.fg3m) / (averageSeasonStat.fga - averageSeasonStat.fg3a)).toFixed(2)}</td>
+                    <td>{averageSeasonStat.fg3m.toFixed(1)}</td>
+                    <td>{averageSeasonStat.fg3a.toFixed(1)}</td>
+                    <td>{(averageSeasonStat.fg3m / averageSeasonStat.fg3a).toFixed(2)}</td>
+                    <td>{averageSeasonStat.ftm.toFixed(1)}</td>
+                    <td>{averageSeasonStat.fta.toFixed(1)}</td>
+                    <td>{(averageSeasonStat.ftm / averageSeasonStat.fta).toFixed(2)}</td>
+                    <td>{averageSeasonStat.oreb.toFixed(1)}</td>
+                    <td>{averageSeasonStat.dreb.toFixed(1)}</td>
+                    <td>{averageSeasonStat.reb.toFixed(1)}</td>
+                    <td>{averageSeasonStat.ast.toFixed(1)}</td>
+                    <td>{averageSeasonStat.stl.toFixed(1)}</td>
+                    <td>{averageSeasonStat.blk.toFixed(1)}</td>
+                    <td>{averageSeasonStat.turnover.toFixed(1)}</td>
+                    <td>{averageSeasonStat.pf.toFixed(1)}</td>
+                    <td>{averageSeasonStat.pts.toFixed(1)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div className={style.stat__detailed} onClick={showDetailedStats}>
               <h2 className={style.stat__detailed_head}>Detailed description of each game</h2>
             </div>
-          </div> :
-          averageSeasonStat === undefined ?
-            <div className={style.wrong}>
-              <h2 className={style.wrong__title}>There aren't stats for this season</h2>
-            </div> :
-            <></>
+          </> :
+          <div className={style.wrong}>
+            <h2 className={style.wrong__title}>There aren't stats for this season</h2>
+          </div>
         }
       </div>
       <div className={
@@ -183,9 +184,14 @@ export default function PagePlayer() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setDataStats({ ...dataStats, isModal: false })}>
-        <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
+        <div className={style.modal__wrapper}>
+          <div className={style.modal__close} onClick={() => setDataStats({ ...dataStats, isModal: false })}>
+            <img src={close} alt="" />
+          </div>
           <table className={style.statsTable}>
-            <caption>Detailed description of each game in season {selectedYear}</caption>
+            <caption>
+              Detailed description season {selectedYear}
+            </caption>
             <thead className={style.statsTable__type}>
               <tr className={style.statsTable__row}>
                 {tableHead.map(item => <th key={item}>{item}</th>)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import search from '../../../assets/images/search.png'
 import close from '../../../assets/images/close.png'
 import style from './Search.module.scss'
@@ -46,7 +46,7 @@ export default function Search() {
             style.form__input_active :
             style.form__input
           }
-          type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} />
+          type="text" placeholder='Ja Morant' ref={inputRef} value={searchedName} onChange={changeSearchingValue} required />
         {isActiveSearch && <>
           <button className={style.form__search_button}>
             <img src={search} alt="" />

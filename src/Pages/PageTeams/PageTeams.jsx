@@ -52,8 +52,6 @@ export default function PageTeams() {
     return (<Spinner />)
   }
 
-  console.log(teams);
-
   return (
     <div className={style.wrapper}>
       <Select change={changeType} value={selectedType} list={['conference', 'division']} />

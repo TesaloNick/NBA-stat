@@ -23,13 +23,10 @@ export default function PageSearchResult() {
   });
   const { currentItems, pageCount, itemOffset, itemsPerPage } = pagination;
 
-  // console.log(playersInfo, currentItems);
-
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
 
     if (!playersSearchResult) {
-      // console.log('api');
       axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100`)
         .then(res => {
           const data = res.data.data;
@@ -42,7 +39,6 @@ export default function PageSearchResult() {
           })
         })
     } else {
-      // console.log('redux');
       setPlayersInfo(playersSearchResult.data)
       setPagination({
         ...pagination,

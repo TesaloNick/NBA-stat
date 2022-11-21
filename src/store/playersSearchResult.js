@@ -7,7 +7,6 @@ const playersSearchResult = createSlice({
   },
   reducers: {
     changePlayersSearchResult(state, action) {
-      // console.log(action.payload);
       state.playersSearchResult = {
         id: new Date().toISOString(),
         data: action.payload,

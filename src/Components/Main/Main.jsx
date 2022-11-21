@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { Link, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import style from './Main.module.scss'
 import { PageHome, PageTeams, PagePlayers, PageTeam, PageSearchResult, PagePlayer, PageGame } from '../../Pages/index'

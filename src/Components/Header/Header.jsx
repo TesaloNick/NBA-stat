@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
 import style from './Header.module.scss'
 import logo from '../../assets/images/logo.png'
-
 import Nav from './Nav/Nav'
 import Search from './Search/Search'
 import Menu from './Menu/Menu'
@@ -14,7 +12,6 @@ export default function Header() {
   function getModalValue(value) {
     setIsModalMenu(value);
   }
-  // console.log(isModalMenu);
 
   return (
     <header className={style.header}>

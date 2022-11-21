@@ -28,8 +28,6 @@ export default function PageHome() {
     )
   }
 
-  console.log(dataGames);
-
   if (!dataGames) {
     return (<Spinner />)
   }

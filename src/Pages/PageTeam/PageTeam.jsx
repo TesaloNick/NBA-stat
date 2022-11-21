@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import style from './PageTeam.module.scss'
+import close from '../../assets/images/close.png'
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
@@ -29,7 +30,6 @@ export default function PageTeam() {
           setTeamInfo({ ...teamInfo, isStatExist: false })
         } else {
           setSeasonInfo({ ...seasonInfo, seasonStats: data })
-
           let wins = 0, losses = 0, abbreviation = '', name = ''
           data.map(item => {
             if (item.status === "Final") {
@@ -45,16 +45,11 @@ export default function PageTeam() {
 
           setTeamInfo({
             isStatExist: true,
-            teamInfoSeason: {
-              name,
-              abbreviation,
-              wins,
-              losses,
-            }
+            teamInfoSeason: { name, abbreviation, wins, losses, }
           })
         }
       })
-  }, [selectedYear])
+  }, [selectedYear, id])
 
   async function showDetailedStats() {
     setSeasonInfo({ ...seasonInfo, isModal: true })
@@ -64,36 +59,37 @@ export default function PageTeam() {
     setSelectedYear(event.target.value);
   }
 
+
   if (!teamInfo || !selectedYear) {
     return (<Spinner />)
   }
-
-  console.log(teamInfo, isStatExist, selectedYear, seasonInfo);
 
   return (
     <div className={style.wrapper}>
       <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div className={style.team}>
-        <div className={style.team__logo_wrapper}>
-          <img className={style.team__logo} src={`/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
+        <div className={style.team__logo}>
+          <img src={`/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
         </div>
-        <h2 className={style.team__name}>{teamInfoSeason.name}</h2>
+        <div className={style.team__info}>
+          <h2 className={style.team__name}>{teamInfoSeason.name}</h2>
+          {isStatExist && <>
+            <p className={style.team__text}>{'Season: ' + selectedYear}</p>
+            <p className={style.team__text}>{'Wins: ' + teamInfoSeason.wins}</p>
+            <p className={style.team__text}>{'Losses: ' + teamInfoSeason.losses}</p>
+          </>
+          }
+        </div>
+      </div>
+      <div className={style.stat}>
         {isStatExist ?
-          <div className={style.stat}>
-            <div className={style.stat__digits}>
-              <p className={style.stat__digit}>{'Season: ' + selectedYear}</p>
-              <p className={style.stat__digit}>{'Wins: ' + teamInfoSeason.wins}</p>
-              <p className={style.stat__digit}>{'Losses: ' + teamInfoSeason.losses}</p>
-            </div>
-            <div className={style.stat__detailed} onClick={showDetailedStats}>
-              <h2 className={style.stat__detailed_head}>Detailed description of each game</h2>
-            </div>
+          <div className={style.stat__detailed} onClick={showDetailedStats}>
+            <h2 className={style.stat__detailed_head}>Detailed description of each game</h2>
           </div> :
           <div>
-            <h1 className={style.stat__wrong}>Team don't exist yet</h1>
+            <h1 className={style.wrong}>Team don't exist yet</h1>
           </div>
         }
-
       </div>
       <div className={
         isModal ?
@@ -101,8 +97,11 @@ export default function PageTeam() {
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
         <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
+          <div className={style.modal__close} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
+            <img src={close} alt="" />
+          </div>
           <table className={style.statsTable}>
-            <caption>Detailed description of each game in season {selectedYear}</caption>
+            <caption>Detailed description season {selectedYear}</caption>
             <thead className={style.statsTable__type}>
               <tr className={style.statsTable__row}>
                 {tableHead.map((item, index) => <th key={index}>{item}</th>)}
@@ -117,7 +116,7 @@ export default function PageTeam() {
                   }</td>
                   <td>{game.visitor_team.id === id ?
                     game.visitor_team.full_name :
-                    <Link to={`/team/${game.visitor_team.id}`}>{game.visitor_team.full_name}</Link>
+                    <Link to={`/team/${game.visitor_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.visitor_team.full_name}</Link>
                   }</td>
                   <td>{game.visitor_team_score ?
                     game.visitor_team_score :
@@ -128,7 +127,7 @@ export default function PageTeam() {
                     '-'}</td>
                   <td>{game.home_team.id === id ?
                     game.home_team.full_name :
-                    <Link to={`/team/${game.home_team.id}`}>{game.home_team.full_name}</Link>
+                    <Link to={`/team/${game.home_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.home_team.full_name}</Link>
                   }</td>
                   <td>{game.status === 'Final' ?
                     <Link to={`/game/${game.id}`}>Box Score</Link> :
