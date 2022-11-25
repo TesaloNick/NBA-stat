@@ -83,7 +83,7 @@ export default function PageSearchResult() {
           currentItems.map(player => (
             <Link to={`/player/${player.id}`} key={player.id} className={`${style.player} ${style.effect_1}`} onClick={() => savePlayerInfo(player)}>
               <div className={style.player__logo_wrapper}>
-                <img src={`/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
+                <img src={`/images/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
               </div>
               <div className={style.player__info}>
                 <div className={style.player__text}><b>Name: </b>{`${player.first_name} ${player.last_name}`}</div>

@@ -107,7 +107,7 @@ export default function PagePlayer() {
       <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div className={style.player}>
         <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo}>
-          <img src={`/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />
+          <img src={`/images/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />
         </Link>
         <div className={style.player__info}>
           <div className={style.player__name}><b>{`${playerInfo.first_name} ${playerInfo.last_name}`}</b></div>

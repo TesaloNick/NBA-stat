@@ -69,7 +69,7 @@ export default function PageTeam() {
       <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div className={style.team}>
         <div className={style.team__logo}>
-          <img src={`/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
+          <img src={`/images/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
         </div>
         <div className={style.team__info}>
           <h2 className={style.team__name}>{teamInfoSeason.name}</h2>

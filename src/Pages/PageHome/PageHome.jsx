@@ -43,7 +43,7 @@ export default function PageHome() {
         {dataGames.map(game => (
           <div key={game.id} className={style.game}>
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__team_logo}>
-              <img src={`/teams-logo-images/${game.visitor_team.abbreviation}-2023.png`} alt="" />
+              <img src={`/images/teams-logo-images/${game.visitor_team.abbreviation}-2023.png`} alt="" />
             </Link>
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__name}>{game.visitor_team.full_name}</Link>
             {game.status === 'Final' ?
@@ -57,7 +57,7 @@ export default function PageHome() {
             }
             <Link to={`/team/${game.home_team.id}`} className={style.game__name}>{game.home_team.full_name}</Link>
             <Link to={`/team/${game.home_team.id}`} className={style.game__team_logo}>
-              <img src={`/teams-logo-images/${game.home_team.abbreviation}-2023.png`} alt="" />
+              <img src={`/images/teams-logo-images/${game.home_team.abbreviation}-2023.png`} alt="" />
             </Link>
           </div>
         ))}

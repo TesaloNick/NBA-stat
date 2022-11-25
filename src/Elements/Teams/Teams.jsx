@@ -21,7 +21,7 @@ export default function Teams({ collections }) {
             {collection.teams.map(team => (
               <div className={style.teams__team} key={team.id}>
                 <Link to={'/team/' + team.id} className={style.teams__logo_wrapper} onClick={() => chooseTeam(team)}>
-                  <img src={`/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
+                  <img src={`/images/teams-logo-images/${team.abbreviation}-2023.png`} alt="" />
                 </Link>
               </div>
             ))}

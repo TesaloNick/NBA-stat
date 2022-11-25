@@ -43,7 +43,7 @@ export default function PageGame() {
       <div className={style.game}>
         <div className={style.game__team}>
           <Link to={`/team/${stats.dataGame.visitor_team_id}`} className={style.game__team_logo}>
-            <img src={`/teams-logo-images/${stats.dataGame.visitor_team_abbreviation}-2023.png`} alt="" />
+            <img src={`/images/teams-logo-images/${stats.dataGame.visitor_team_abbreviation}-2023.png`} alt="" />
           </Link>
           <Link to={`/team/${stats.dataGame.home_team_id}`} className={style.game__team_name}>{stats.dataGame.visitor_team_full_name}</Link>
         </div>
@@ -53,7 +53,7 @@ export default function PageGame() {
         </div>
         <div className={style.game__team}>
           <Link to={`/team/${stats.dataGame.home_team_id}`} className={style.game__team_logo}>
-            <img src={`/teams-logo-images/${stats.dataGame.home_team_abbreviation}-2023.png`} alt="" />
+            <img src={`/images/teams-logo-images/${stats.dataGame.home_team_abbreviation}-2023.png`} alt="" />
           </Link>
           <Link to={`/team/${stats.dataGame.home_team_id}`} className={style.game__team_name}>{stats.dataGame.home_team_full_name}</Link>
         </div>
