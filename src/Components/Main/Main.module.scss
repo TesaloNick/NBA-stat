@@ -1,5 +1,6 @@
 .main {
-  background: linear-gradient(220.16deg, #0a203e -8%, #7e9cc2 138%);
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(../../assets/main-background.jpg) center/cover no-repeat;
   flex: 1 1 auto;
 }
 
