@@ -2,11 +2,14 @@ import React from 'react'
 import style from './Table.module.scss'
 import { Link } from 'react-router-dom'
 
-export default function Table({ tableHead, stats }) {
+export default function Table({ stats }) {
+  const tableHead = ['Players', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
 
   return (
     <div className={style.wrapper}>
-      <table className={style.statsTable}>
+      <table className={style.statsTable} style={{
+        background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/images/teams-images/${stats[0].team.abbreviation}-back.jpg) center/cover no-repeat`,
+      }}>
         <caption>{stats[0].team.full_name}. Players statistics</caption>
         <thead className={style.statsTable__type}>
           <tr className={style.statsTable__row}>

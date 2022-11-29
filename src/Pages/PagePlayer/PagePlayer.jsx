@@ -11,13 +11,13 @@ import SelectSeason from '../../Elements/Select/Select';
 export default function PagePlayer() {
   const { id } = useParams()
   const [selectedYear, setSelectedYear] = useState('2022-2023')
-  const [dataStats, setDataStats] = useState({
+  const [states, setStates] = useState({
     isModal: false,
     seasonStats: []
   })
   const averageTableHead = ['Season', 'G', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
-  const { playerInfo, averageSeasonStat, isModal, seasonStats } = dataStats
+  const { playerInfo, averageSeasonStat, isModal, seasonStats } = states
   const getPlayerInfo = useSelector(state => state.player.players.filter(item => +item.id === +id))
   const seasons = useSelector(state => state.seasons.seasons)
   const teams = useSelector(state => state.teams.teams)
@@ -31,10 +31,10 @@ export default function PagePlayer() {
         .then(axios.spread((...responses) => {
           const resPlayerInfo = responses[0].data
           const data = responses[1].data.data
-          setDataStats({
-            ...dataStats,
+          setStates({
+            ...states,
             playerInfo: resPlayerInfo,
-            averageSeasonStat: getAverageStat(data).averageSeasonStat,
+            averageSeasonStat: data.length > 0 ? getAverageStat(data).averageSeasonStat : false,
             seasonStats: getAverageStat(data).seasonStats
           })
         }))
@@ -48,12 +48,13 @@ export default function PagePlayer() {
       .then(res => {
         const data = res.data.data
         data.length === 0 ?
-          setDataStats({
-            ...dataStats,
+          setStates({
+            ...states,
+            playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
             averageSeasonStat: false,
           }) :
-          setDataStats({
-            ...dataStats,
+          setStates({
+            ...states,
             playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
             averageSeasonStat: getAverageStat(data).averageSeasonStat,
             seasonStats: getAverageStat(data).seasonStats
@@ -92,8 +93,8 @@ export default function PagePlayer() {
   }
 
   async function showDetailedStats() {
-    setDataStats({
-      ...dataStats,
+    setStates({
+      ...states,
       isModal: true,
     })
   }
@@ -101,6 +102,7 @@ export default function PagePlayer() {
   if (!playerInfo || !seasonStats) {
     return (<Spinner />)
   }
+
 
   return (
     <div className={style.wrapper}>
@@ -183,9 +185,11 @@ export default function PagePlayer() {
         isModal ?
           `${style.modal} ${style.active}` :
           style.modal
-      } onClick={() => setDataStats({ ...dataStats, isModal: false })}>
-        <div className={style.modal__wrapper}>
-          <div className={style.modal__close} onClick={() => setDataStats({ ...dataStats, isModal: false })}>
+      } onClick={() => setStates({ ...states, isModal: false })}>
+        <div className={style.modal__wrapper} style={{
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${playerInfo.team.abbreviation}-back.jpg) center/cover no-repeat`,
+        }}>
+          <div className={style.modal__close} onClick={() => setStates({ ...states, isModal: false })}>
             <img src={close} alt="" />
           </div>
           <table className={style.statsTable}>

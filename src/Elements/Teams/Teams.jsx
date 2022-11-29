@@ -8,7 +8,6 @@ export default function Teams({ collections }) {
   const dispatch = useDispatch()
 
   function chooseTeam(team) {
-    console.log(team);
     dispatch(addTeam(team))
   }
 

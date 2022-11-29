@@ -19,9 +19,9 @@ export default function PageSearchResult() {
     currentItems: null,
     pageCount: 0,
     itemOffset: 0,
-    itemsPerPage: 15,
+    itemsPerPage: 18,
   });
-  const { currentItems, pageCount, itemOffset, itemsPerPage } = pagination;
+  const { items, currentItems, pageCount, itemOffset, itemsPerPage } = pagination;
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -33,6 +33,7 @@ export default function PageSearchResult() {
           setPlayersInfo(data)
           setPagination({
             ...pagination,
+            items: data,
             currentItems: data.slice(itemOffset, endOffset),
             pageCount: Math.ceil(data.length / itemsPerPage),
             itemOffset: 0,
@@ -42,19 +43,23 @@ export default function PageSearchResult() {
       setPlayersInfo(playersSearchResult.data)
       setPagination({
         ...pagination,
+        items: playersSearchResult.data,
         currentItems: playersSearchResult.data.slice(itemOffset, endOffset),
         pageCount: Math.ceil(playersSearchResult.data.length / itemsPerPage),
         itemOffset: 0,
       })
     }
-  }, [playersSearchResult])
+  }, [])
+  console.log(currentItems, itemOffset);
 
   const handlePageClick = (event) => { // переключение пагинации
     const newOffset = (event.selected * itemsPerPage) % playersInfo.length;
     setPagination({
       ...pagination,
       itemOffset: newOffset,
+      currentItems: items.slice(newOffset, newOffset + itemsPerPage),
     })
+    console.log(items.slice(newOffset, itemOffset + itemsPerPage));
   };
 
   function savePlayerInfo(playerInfo) {

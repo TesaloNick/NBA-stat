@@ -96,7 +96,9 @@ export default function PageTeam() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
-        <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()}>
+        <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()} style={{
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${teamInfoSeason.abbreviation}-back.jpg) center/cover no-repeat`,
+        }}>
           <div className={style.modal__close} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
             <img src={close} alt="" />
           </div>

@@ -10,7 +10,6 @@ export default function PageGame() {
   const { id } = useParams()
   const [stats, setStats] = useState(false)
 
-  const tableHead = ['Players', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
 
   useEffect(() => {
     axios.get(`https://www.balldontlie.io/api/v1/stats?game_ids[]=${id}&per_page=100`)
@@ -59,8 +58,8 @@ export default function PageGame() {
         </div>
       </div>
       <div className={style.players}>
-        <Table tableHead={tableHead} stats={stats.visitor_team} />
-        <Table tableHead={tableHead} stats={stats.home_team} />
+        <Table stats={stats.visitor_team} />
+        <Table stats={stats.home_team} />
       </div>
     </div>
   )
