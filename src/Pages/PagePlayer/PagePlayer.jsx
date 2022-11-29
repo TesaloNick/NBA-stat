@@ -186,57 +186,59 @@ export default function PagePlayer() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setStates({ ...states, isModal: false })}>
-        <div className={style.modal__wrapper} style={{
+        <div className={style.modal__wrapperOutside} onClick={(event) => event.stopPropagation()} style={{
           background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${playerInfo.team.abbreviation}-back.jpg) center/cover no-repeat`,
         }}>
           <div className={style.modal__close} onClick={() => setStates({ ...states, isModal: false })}>
             <img src={close} alt="" />
           </div>
-          <table className={style.statsTable}>
-            <caption>
-              Detailed description season {selectedYear}
-            </caption>
-            <thead className={style.statsTable__type}>
-              <tr className={style.statsTable__row}>
-                {tableHead.map(item => <th key={item}>{item}</th>)}
-              </tr>
-            </thead>
-            <tbody className={style.statsTable__type}>
-              {seasonStats.map(game => (
-                <tr className={style.statsTable__row} key={game.id}>
-                  <td>
-                    <Link to={`/game/${game.game.id}`}>{game.game.date.slice(0, 10)}</Link>
-                  </td>
-                  <td>{game.team.id === game.game.home_team_id ?
-                    (<Link to={`/team/${game.game.visitor_team_id}`}>{teams.find(item => item.id === game.game.visitor_team_id).abbreviation}</Link>) :
-                    (<Link to={`/team/${game.game.home_team_id}`}>{teams.find(item => item.id === game.game.home_team_id).abbreviation}</Link>)
-                  }</td>
-                  <td>{game.min}</td>
-                  <td>{(game.fgm - game.fg3m).toFixed(0)}</td>
-                  <td>{(game.fga - game.fg3a).toFixed(0)}</td>
-                  <td>{(game.fga - game.fg3a) !== 0 ?
-                    ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) :
-                    '0.00'
-                  }</td>
-                  <td>{game.fg3m.toFixed(0)}</td>
-                  <td>{game.fg3a.toFixed(0)}</td>
-                  <td>{game.fg3_pct.toFixed(2)}</td>
-                  <td>{game.ftm.toFixed(0)}</td>
-                  <td>{game.fta.toFixed(0)}</td>
-                  <td>{game.ft_pct.toFixed(2)}</td>
-                  <td>{game.oreb.toFixed(0)}</td>
-                  <td>{game.dreb.toFixed(0)}</td>
-                  <td>{game.reb.toFixed(0)}</td>
-                  <td>{game.ast.toFixed(0)}</td>
-                  <td>{game.stl.toFixed(0)}</td>
-                  <td>{game.blk.toFixed(0)}</td>
-                  <td>{game.turnover.toFixed(0)}</td>
-                  <td>{game.pf.toFixed(0)}</td>
-                  <td>{game.pts.toFixed(0)}</td>
+          <div className={style.modal__wrapper} >
+            <table className={style.statsTable}>
+              <caption>
+                Detailed description season {selectedYear}
+              </caption>
+              <thead className={style.statsTable__type}>
+                <tr className={style.statsTable__row}>
+                  {tableHead.map(item => <th key={item}>{item}</th>)}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className={style.statsTable__type}>
+                {seasonStats.map(game => (
+                  <tr className={style.statsTable__row} key={game.id}>
+                    <td>
+                      <Link to={`/game/${game.game.id}`}>{game.game.date.slice(0, 10)}</Link>
+                    </td>
+                    <td>{game.team.id === game.game.home_team_id ?
+                      (<Link to={`/team/${game.game.visitor_team_id}`}>{teams.find(item => item.id === game.game.visitor_team_id).abbreviation}</Link>) :
+                      (<Link to={`/team/${game.game.home_team_id}`}>{teams.find(item => item.id === game.game.home_team_id).abbreviation}</Link>)
+                    }</td>
+                    <td>{game.min}</td>
+                    <td>{(game.fgm - game.fg3m).toFixed(0)}</td>
+                    <td>{(game.fga - game.fg3a).toFixed(0)}</td>
+                    <td>{(game.fga - game.fg3a) !== 0 ?
+                      ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) :
+                      '0.00'
+                    }</td>
+                    <td>{game.fg3m.toFixed(0)}</td>
+                    <td>{game.fg3a.toFixed(0)}</td>
+                    <td>{game.fg3_pct.toFixed(2)}</td>
+                    <td>{game.ftm.toFixed(0)}</td>
+                    <td>{game.fta.toFixed(0)}</td>
+                    <td>{game.ft_pct.toFixed(2)}</td>
+                    <td>{game.oreb.toFixed(0)}</td>
+                    <td>{game.dreb.toFixed(0)}</td>
+                    <td>{game.reb.toFixed(0)}</td>
+                    <td>{game.ast.toFixed(0)}</td>
+                    <td>{game.stl.toFixed(0)}</td>
+                    <td>{game.blk.toFixed(0)}</td>
+                    <td>{game.turnover.toFixed(0)}</td>
+                    <td>{game.pf.toFixed(0)}</td>
+                    <td>{game.pts.toFixed(0)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div >

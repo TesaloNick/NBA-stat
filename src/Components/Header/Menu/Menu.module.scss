@@ -7,12 +7,14 @@
 
   @media (max-width: 650px) {
     display: block;
-    z-index: 2;
+    z-index: 10;
   }
 
   &.active {
     @media (max-width: 650px) {
       transition: 0.5s;
+      z-index: 11;
+
       span {
         width: 40px;
 

@@ -96,56 +96,59 @@ export default function PageTeam() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
-        <div className={style.modal__wrapper} onClick={(event) => event.stopPropagation()} style={{
+        <div className={style.modal__wrapperOutside} onClick={(event) => event.stopPropagation()} style={{
           background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${teamInfoSeason.abbreviation}-back.jpg) center/cover no-repeat`,
         }}>
           <div className={style.modal__close} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
             <img src={close} alt="" />
           </div>
-          <table className={style.statsTable}>
-            <caption>Detailed description season {selectedYear}</caption>
-            <thead className={style.statsTable__type}>
-              <tr className={style.statsTable__row}>
-                {tableHead.map((item, index) => <th key={index}>{item}</th>)}
-              </tr>
-            </thead>
-            <tbody className={style.statsTable__type}>
-              {seasonStats.map(game => (
-                <tr className={style.statsTable__row} key={game.id}>
-                  <td>{game.status === 'Final' ?
-                    <Link to={`/game/${game.id}`}>{game.date.slice(0, 10)}</Link> :
-                    game.date.slice(0, 10)
-                  }</td>
-                  <td>{game.visitor_team.id === id ?
-                    game.visitor_team.full_name :
-                    <Link to={`/team/${game.visitor_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.visitor_team.full_name}</Link>
-                  }</td>
-                  <td>{game.visitor_team_score ?
-                    game.visitor_team_score :
-                    '-'}</td>
-                  <td>@</td>
-                  <td>{game.home_team_score ?
-                    game.home_team_score :
-                    '-'}</td>
-                  <td>{game.home_team.id === id ?
-                    game.home_team.full_name :
-                    <Link to={`/team/${game.home_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.home_team.full_name}</Link>
-                  }</td>
-                  <td>{game.status === 'Final' ?
-                    <Link to={`/game/${game.id}`}>Box Score</Link> :
-                    'Box Score'
-                  }
-                  </td>
-                  <td>{
-                    id == game.visitor_team.id && game.visitor_team_score > game.home_team_score ?
-                      'W' : id == game.home_team.id && game.home_team_score > game.visitor_team_score ?
-                        'W' : game.home_team_score != '0' ?
-                          'L' : '-'
-                  }</td>
+          <div className={style.modal__wrapper}>
+
+            <table className={style.statsTable}>
+              <caption>Detailed description season {selectedYear}</caption>
+              <thead className={style.statsTable__type}>
+                <tr className={style.statsTable__row}>
+                  {tableHead.map((item, index) => <th key={index}>{item}</th>)}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className={style.statsTable__type}>
+                {seasonStats.map(game => (
+                  <tr className={style.statsTable__row} key={game.id}>
+                    <td>{game.status === 'Final' ?
+                      <Link to={`/game/${game.id}`}>{game.date.slice(0, 10)}</Link> :
+                      game.date.slice(0, 10)
+                    }</td>
+                    <td>{game.visitor_team.id === id ?
+                      game.visitor_team.full_name :
+                      <Link to={`/team/${game.visitor_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.visitor_team.full_name}</Link>
+                    }</td>
+                    <td>{game.visitor_team_score ?
+                      game.visitor_team_score :
+                      '-'}</td>
+                    <td>@</td>
+                    <td>{game.home_team_score ?
+                      game.home_team_score :
+                      '-'}</td>
+                    <td>{game.home_team.id === id ?
+                      game.home_team.full_name :
+                      <Link to={`/team/${game.home_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.home_team.full_name}</Link>
+                    }</td>
+                    <td>{game.status === 'Final' ?
+                      <Link to={`/game/${game.id}`}>Box Score</Link> :
+                      'Box Score'
+                    }
+                    </td>
+                    <td>{
+                      id == game.visitor_team.id && game.visitor_team_score > game.home_team_score ?
+                        'W' : id == game.home_team.id && game.home_team_score > game.visitor_team_score ?
+                          'W' : game.home_team_score != '0' ?
+                            'L' : '-'
+                    }</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div >
