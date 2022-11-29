@@ -8,5 +8,5 @@
 ## Telegram: @TesaloNick
 
 ![Image alt](./public/images/CoverHome.png)
-![Image alt](./public/images/CoverGame.png)
+![Image alt](./public/images/CoverGame2.png)
 ![Image alt](./public/images/CoverTeams.png)
