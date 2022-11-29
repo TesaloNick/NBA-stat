@@ -50,9 +50,6 @@ $border-table: 1px solid white;
   }
 
   thead {
-    position: sticky;
-    top: 0;
-
     tr:first-child th {
       border-top: $border-table;
     }
