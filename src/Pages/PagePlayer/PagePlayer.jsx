@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import style from './PagePlayer.module.scss'
 import close from '../../assets/images/close.png'
+import click from '../../assets/images/click.svg'
 import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import sortDate from '../../Elements/SortDate';
@@ -174,6 +175,7 @@ export default function PagePlayer() {
             </div>
             <div className={style.stat__detailed} onClick={showDetailedStats}>
               <h2 className={style.stat__detailed_head}>Detailed description of each game</h2>
+              <img src={click} alt="click" />
             </div>
           </> :
           <div className={style.wrong}>

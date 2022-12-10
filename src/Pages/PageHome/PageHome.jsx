@@ -45,7 +45,8 @@ export default function PageHome() {
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__team_logo}>
               <img src={`/images/teams-logo-images/${game.visitor_team.abbreviation}-2023.png`} alt="" />
             </Link>
-            <Link to={`/team/${game.visitor_team.id}`} className={style.game__name}>{game.visitor_team.full_name}</Link>
+            <Link to={`/team/${game.visitor_team.id}`} className={style.game__fullName}>{game.visitor_team.full_name}</Link>
+            <Link to={`/team/${game.visitor_team.id}`} className={style.game__abbreviation}>{game.visitor_team.abbreviation}</Link>
             {game.status === 'Final' ?
               <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link> :
               game.time !== '' ?
@@ -55,7 +56,8 @@ export default function PageHome() {
                 </Link> :
                 <div className={style.game__status}>{game.status}</div>
             }
-            <Link to={`/team/${game.home_team.id}`} className={style.game__name}>{game.home_team.full_name}</Link>
+            <Link to={`/team/${game.home_team.id}`} className={style.game__fullName}>{game.home_team.full_name}</Link>
+            <Link to={`/team/${game.home_team.id}`} className={style.game__abbreviation}>{game.home_team.abbreviation}</Link>
             <Link to={`/team/${game.home_team.id}`} className={style.game__team_logo}>
               <img src={`/images/teams-logo-images/${game.home_team.abbreviation}-2023.png`} alt="" />
             </Link>

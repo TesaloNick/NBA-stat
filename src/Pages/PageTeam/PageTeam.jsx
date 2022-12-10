@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import style from './PageTeam.module.scss'
 import close from '../../assets/images/close.png'
+import click from '../../assets/images/click.svg'
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner'
 import { useParams, Link } from 'react-router-dom';
@@ -85,6 +86,7 @@ export default function PageTeam() {
         {isStatExist ?
           <div className={style.stat__detailed} onClick={showDetailedStats}>
             <h2 className={style.stat__detailed_head}>Detailed description of each game</h2>
+            <img src={click} alt="click" />
           </div> :
           <div>
             <h1 className={style.wrong}>Team don't exist yet</h1>

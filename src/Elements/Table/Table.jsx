@@ -8,7 +8,7 @@ export default function Table({ stats }) {
   return (
     <div className={style.wrapper}>
       <table className={style.statsTable} style={{
-        background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/images/teams-images/${stats[0].team.abbreviation}-back.jpg) center/cover no-repeat`,
+        background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${stats[0].team.abbreviation}-back.jpg) center/cover no-repeat`,
       }}>
         <caption>{stats[0].team.full_name}. Players statistics</caption>
         <thead className={style.statsTable__type}>

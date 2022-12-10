@@ -44,7 +44,7 @@ export default function PageGame() {
           <Link to={`/team/${stats.dataGame.visitor_team_id}`} className={style.game__team_logo}>
             <img src={`/images/teams-logo-images/${stats.dataGame.visitor_team_abbreviation}-2023.png`} alt="" />
           </Link>
-          <Link to={`/team/${stats.dataGame.home_team_id}`} className={style.game__team_name}>{stats.dataGame.visitor_team_full_name}</Link>
+          <Link to={`/team/${stats.dataGame.visitor_team_id}`} className={style.game__team_name}>{stats.dataGame.visitor_team_full_name}</Link>
         </div>
         <div className={style.game__middle}>
           <div className={style.game__middle_score}>{`${stats.dataGame.visitor_team_score}:${stats.dataGame.home_team_score}`}</div>
