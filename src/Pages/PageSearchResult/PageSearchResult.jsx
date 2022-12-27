@@ -49,8 +49,7 @@ export default function PageSearchResult() {
         itemOffset: 0,
       })
     }
-  }, [])
-  console.log(currentItems, itemOffset);
+  }, [playersSearchResult])
 
   const handlePageClick = (event) => { // переключение пагинации
     const newOffset = (event.selected * itemsPerPage) % playersInfo.length;
@@ -59,7 +58,6 @@ export default function PageSearchResult() {
       itemOffset: newOffset,
       currentItems: items.slice(newOffset, newOffset + itemsPerPage),
     })
-    console.log(items.slice(newOffset, itemOffset + itemsPerPage));
   };
 
   function savePlayerInfo(playerInfo) {

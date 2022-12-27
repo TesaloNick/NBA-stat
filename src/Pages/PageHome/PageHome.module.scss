@@ -192,11 +192,9 @@
       height: 40px;
     }
 
-    // @media (max-width: 650px) {
     &:nth-of-type(1) {
       justify-self: end;
     }
-    // }
 
     &:hover {
       -webkit-box-shadow: 0px 0px 5px 6px rgba(255, 255, 255, 0.2);
@@ -208,6 +206,8 @@
 
     img {
       width: 100%;
+      aspect-ratio: 1 / 1;
+      background-color: #fff;
     }
   }
 }
