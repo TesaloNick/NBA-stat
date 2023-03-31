@@ -1,8 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 let seasonsList = []
-for (let i = 2022; i >= 1979; i--) {
-  seasonsList.push(`${i}-${i + 1}`)
+if ((new Date).getMonth() >= 9){
+  for (let i = (new Date).getFullYear(); i >= 1979; i--) {
+    seasonsList.push(`${i}-${i + 1}`)
+  }
+} else {
+  for (let i = (new Date).getFullYear()-1; i >= 1979; i--) {
+    seasonsList.push(`${i}-${i + 1}`)
+  } 
 }
 
 const seasonsData = createSlice({

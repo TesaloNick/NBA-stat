@@ -11,7 +11,11 @@ import SelectSeason from '../../Elements/Select/Select';
 
 export default function PagePlayer() {
   const { id } = useParams()
-  const [selectedYear, setSelectedYear] = useState('2022-2023')
+  const [selectedYear, setSelectedYear] = useState(
+    (new Date).getMonth() >= 9 ?
+    `${(new Date).getFullYear()}-${(new Date).getFullYear() + 1}` :
+    `${(new Date).getFullYear() -1}-${(new Date).getFullYear()}`
+  )
   const [states, setStates] = useState({
     isModal: false,
     seasonStats: []
@@ -66,7 +70,6 @@ export default function PagePlayer() {
   function getAverageStat(data) {
     const seasonStats = sortDate(data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
     const numberOfGames = seasonStats.length
-
     var averageStats = {};
     seasonStats.forEach((gameStats, index) => {
       for (var p in gameStats) {
@@ -183,13 +186,20 @@ export default function PagePlayer() {
           </div>
         }
       </div>
-      <div className={
-        isModal ?
-          `${style.modal} ${style.active}` :
-          style.modal
-      } onClick={() => setStates({ ...states, isModal: false })}>
-        <div className={style.modal__wrapperOutside} onClick={(event) => event.stopPropagation()} style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${playerInfo.team.abbreviation}-back.jpg) center/cover no-repeat`,
+      <div 
+        className={isModal ?
+            `${style.modal} ${style.active}` :
+            style.modal
+        } 
+        onClick={() => setStates({ ...states, isModal: false })}
+      >
+        <div 
+          className={style.modal__wrapperOutside} 
+          onClick={(event) => event.stopPropagation()} 
+          style={{background: `
+            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            url(/images/teams-images/${playerInfo.team.abbreviation}-back.jpg) center/cover no-repeat
+          `,
         }}>
           <div className={style.modal__close} onClick={() => setStates({ ...states, isModal: false })}>
             <img src={close} alt="" />
@@ -223,10 +233,10 @@ export default function PagePlayer() {
                     }</td>
                     <td>{game.fg3m.toFixed(0)}</td>
                     <td>{game.fg3a.toFixed(0)}</td>
-                    <td>{game.fg3_pct.toFixed(2)}</td>
+                    <td>{(+game.fg3_pct).toFixed(2)}</td>
                     <td>{game.ftm.toFixed(0)}</td>
                     <td>{game.fta.toFixed(0)}</td>
-                    <td>{game.ft_pct.toFixed(2)}</td>
+                    <td>{(+game.ft_pct).toFixed(2)}</td>
                     <td>{game.oreb.toFixed(0)}</td>
                     <td>{game.dreb.toFixed(0)}</td>
                     <td>{game.reb.toFixed(0)}</td>

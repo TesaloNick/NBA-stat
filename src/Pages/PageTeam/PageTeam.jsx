@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './PageTeam.module.scss'
 import close from '../../assets/images/close.png'
 import click from '../../assets/images/click.svg'
@@ -11,7 +11,11 @@ import { useSelector } from 'react-redux'
 
 export default function PageTeam() {
   const { id } = useParams()
-  const [selectedYear, setSelectedYear] = useState('2022-2023')
+  const [selectedYear, setSelectedYear] = useState(
+    (new Date).getMonth() >= 9 ?
+    `${(new Date).getFullYear()}-${(new Date).getFullYear() + 1}` :
+    `${(new Date).getFullYear() -1}-${(new Date).getFullYear()}`
+  )
   const [teamInfo, setTeamInfo] = useState(false)
   const [seasonInfo, setSeasonInfo] = useState({
     isModal: false,
