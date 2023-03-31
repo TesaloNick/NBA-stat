@@ -29,7 +29,7 @@ export default function PageTeams() {
           ],
         }
 
-        dataTeams.map(item => {
+        dataTeams.forEach(item => {
           if (item.conference === 'East') teamsObj.conferences[1].teams = [...teamsObj.conferences[1].teams, item]
           if (item.conference === 'West') teamsObj.conferences[0].teams = [...teamsObj.conferences[0].teams, item]
           if (item.division === 'Southwest') teamsObj.divisions[0].teams = [...teamsObj.divisions[0].teams, item]

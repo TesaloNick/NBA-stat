@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState } from 'react'
 import search from '../../../assets/images/search.png'
 import close from '../../../assets/images/close.png'
 import style from './Search.module.scss'

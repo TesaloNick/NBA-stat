@@ -12,9 +12,9 @@ import { useSelector } from 'react-redux'
 export default function PageTeam() {
   const { id } = useParams()
   const [selectedYear, setSelectedYear] = useState(
-    (new Date).getMonth() >= 9 ?
-    `${(new Date).getFullYear()}-${(new Date).getFullYear() + 1}` :
-    `${(new Date).getFullYear() -1}-${(new Date).getFullYear()}`
+    (new Date()).getMonth() >= 9 ?
+    `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
+    `${(new Date()).getFullYear() -1}-${(new Date()).getFullYear()}`
   )
   const [teamInfo, setTeamInfo] = useState(false)
   const [seasonInfo, setSeasonInfo] = useState({

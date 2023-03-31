@@ -12,9 +12,9 @@ import SelectSeason from '../../Elements/Select/Select';
 export default function PagePlayer() {
   const { id } = useParams()
   const [selectedYear, setSelectedYear] = useState(
-    (new Date).getMonth() >= 9 ?
-    `${(new Date).getFullYear()}-${(new Date).getFullYear() + 1}` :
-    `${(new Date).getFullYear() -1}-${(new Date).getFullYear()}`
+    (new Date()).getMonth() >= 9 ?
+    `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
+    `${(new Date()).getFullYear() -1}-${(new Date()).getFullYear()}`
   )
   const [states, setStates] = useState({
     isModal: false,
