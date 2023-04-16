@@ -49,12 +49,16 @@ export default function PageHome() {
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__abbreviation}>{game.visitor_team.abbreviation}</Link>
             {game.status === 'Final' ?
               <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link> :
-              game.time !== '' ?
-                <Link to={`/game/${game.id}`} className={style.game__status_score}>
-                  <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
-                  <p>{`(${game.status})`}</p>
-                </Link> :
-                <div className={style.game__status}>{game.status}</div>
+              game.postseason ?
+                <div className={style.game__status}>{
+                  `${game.status.slice(11, 16)}`
+                }</div>:
+                game.time !== '' ?
+                  <Link to={`/game/${game.id}`} className={style.game__status_score}>
+                    <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
+                    <p>{`(${game.status})`}</p>
+                  </Link> :
+                  <div className={style.game__status}>{game.status}</div>
             }
             <Link to={`/team/${game.home_team.id}`} className={style.game__fullName}>{game.home_team.full_name}</Link>
             <Link to={`/team/${game.home_team.id}`} className={style.game__abbreviation}>{game.home_team.abbreviation}</Link>
