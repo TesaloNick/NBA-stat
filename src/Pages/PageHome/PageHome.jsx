@@ -31,6 +31,7 @@ export default function PageHome() {
   if (!dataGames) {
     return (<Spinner />)
   }
+  {console.log(dataGames)}
 
   return (
     <div className={style.wrapper}>
@@ -50,10 +51,14 @@ export default function PageHome() {
             {game.status === 'Final' ?
               <Link to={`/game/${game.id}`} className={style.game__status_score}>{game.visitor_team_score} : {game.home_team_score}</Link> :
               game.postseason ?
-                <div className={style.game__status}>{
-                  `${game.status.slice(11, 16)}`
-                }</div>:
-                game.time !== '' ?
+                game.time ?
+                  <Link to={`/game/${game.id}`} className={style.game__status_score}>
+                    <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
+                    {console.log(`(${game.status})`)}
+                    <p>{`(${game.status})`}</p>
+                  </Link> :
+                  <div className={style.game__status}>{game.status.slice(11, 16)}</div> : 
+                game.time ?
                   <Link to={`/game/${game.id}`} className={style.game__status_score}>
                     <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
                     <p>{`(${game.status})`}</p>
