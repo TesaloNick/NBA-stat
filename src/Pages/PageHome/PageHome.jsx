@@ -31,7 +31,6 @@ export default function PageHome() {
   if (!dataGames) {
     return (<Spinner />)
   }
-  {console.log(dataGames)}
 
   return (
     <div className={style.wrapper}>

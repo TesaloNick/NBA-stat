@@ -27,10 +27,10 @@ export default function Table({ stats }) {
               <td>{(game.fga - game.fg3a) !== 0 ? ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) : '0.0'}</td>
               <td>{game.fg3m.toFixed(0)}</td>
               <td>{game.fg3a.toFixed(0)}</td>
-              <td>{game.fg3_pct.toFixed(2)}</td>
+              <td>{(+game.fg3_pct).toFixed(2)}</td>
               <td>{game.ftm.toFixed(0)}</td>
               <td>{game.fta.toFixed(0)}</td>
-              <td>{game.ft_pct.toFixed(2)}</td>
+              <td>{(+game.ft_pct).toFixed(2)}</td>
               <td>{game.oreb.toFixed(0)}</td>
               <td>{game.dreb.toFixed(0)}</td>
               <td>{game.reb.toFixed(0)}</td>
