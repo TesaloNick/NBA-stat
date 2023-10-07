@@ -14,6 +14,7 @@ export default function Main() {
         <Suspense fallback={<h1>Loading...</h1>}>
           <Routes>
             <Route path='/' element={<PageHome />} />
+            <Route path='/main' element={<PageHome />} />
             <Route path='/players' element={<PagePlayers />} />
             <Route path='/player/:id' element={<PagePlayer />} />
             <Route path='/searching/:searchedName' element={<PageSearchResult />} />
