@@ -25,12 +25,18 @@ export default function PageTeam() {
   const { isStatExist, teamInfoSeason } = teamInfo
   const tableHead = ['DATE', 'Visitor team', 'Score', '@', 'Score', 'Home team', 'Box Score', 'W/L']
   const seasons = useSelector(state => state.seasons.seasons)
+  const teamBaseInfo = useSelector(state => state.teams.teams).find(team => team.id === +id)
 
   useEffect(() => {
-    axios.get(`https://www.balldontlie.io/api/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01`)
+    axios.get(`
+      https://www.balldontlie.io/api/v1/games?seasons[]=${
+        selectedYear.slice(0, 4)
+      }&team_ids[]=${id}&per_page=100&postseason=false&start_date=${
+        selectedYear.slice(0, 4)
+      }-10-01
+    `)
       .then(res => {
         let data = sortDate(res.data.data)
-
         if (data.length === 0) {
           setTeamInfo({ ...teamInfo, isStatExist: false })
         } else {
@@ -74,7 +80,7 @@ export default function PageTeam() {
       <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
       <div className={style.team}>
         <div className={style.team__logo}>
-          <img src={`/images/teams-logo-images/${teamInfoSeason.abbreviation}-2023.png`} alt="" />
+          <img src={`/images/teams-logo-images/${teamBaseInfo.abbreviation}-2023.png`} alt="" />
         </div>
         <div className={style.team__info}>
           <h2 className={style.team__name}>{teamInfoSeason.name}</h2>
@@ -102,14 +108,23 @@ export default function PageTeam() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
-        <div className={style.modal__wrapperOutside} onClick={(event) => event.stopPropagation()} style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${teamInfoSeason.abbreviation}-back.jpg) center/cover no-repeat`,
-        }}>
-          <div className={style.modal__close} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
+        <div 
+          className={style.modal__wrapperOutside} 
+          onClick={(event) => event.stopPropagation()} 
+          style={{background: `
+            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            url(/images/teams-images/${teamInfoSeason.abbreviation}-back.jpg) 
+            center/cover 
+            no-repeat
+          `}}
+        >
+          <div 
+            className={style.modal__close} 
+            onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
+          >
             <img src={close} alt="" />
           </div>
           <div className={style.modal__wrapper}>
-
             <table className={style.statsTable}>
               <caption>Detailed description season {selectedYear}</caption>
               <thead className={style.statsTable__type}>
@@ -126,7 +141,12 @@ export default function PageTeam() {
                     }</td>
                     <td>{game.visitor_team.id === id ?
                       game.visitor_team.full_name :
-                      <Link to={`/team/${game.visitor_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.visitor_team.full_name}</Link>
+                      <Link 
+                        to={`/team/${game.visitor_team.id}`} 
+                        onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
+                      >
+                        {game.visitor_team.full_name}
+                      </Link>
                     }</td>
                     <td>{game.visitor_team_score ?
                       game.visitor_team_score :
@@ -137,7 +157,12 @@ export default function PageTeam() {
                       '-'}</td>
                     <td>{game.home_team.id === id ?
                       game.home_team.full_name :
-                      <Link to={`/team/${game.home_team.id}`} onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>{game.home_team.full_name}</Link>
+                      <Link 
+                        to={`/team/${game.home_team.id}`} 
+                        onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
+                      >
+                        {game.home_team.full_name}
+                      </Link>
                     }</td>
                     <td>{game.status === 'Final' ?
                       <Link to={`/game/${game.id}`}>Box Score</Link> :
