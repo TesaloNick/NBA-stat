@@ -68,23 +68,39 @@ export default function PagePlayer() {
   }
 
   function getAverageStat(data) {
-    const seasonStats = sortDate(data.filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min))
+    const seasonStats = sortDate(data.filter(game =>
+      game.min !== '0:00' &&
+      game.min !== "00" &&
+      game.min
+    ))
     const numberOfGames = seasonStats.length
-    var averageStats = {};
-    seasonStats.forEach((gameStats, index) => {
-      for (var key in gameStats) {
-        if (gameStats.hasOwnProperty(key) && key !== 'player' && key !== 'game' && key !== 'team' && key !== 'id' && key !== 'fg3_pct' && key !== 'fg_pct' && key !== 'ft_pct') {
-          if (index === numberOfGames - 1) {
-            averageStats[key] = (averageStats[key] ?? 0 + +gameStats[key]) / numberOfGames;
-            averageStats.games_played = numberOfGames
-          } else {
-            averageStats[key] = averageStats[key] || 0;
-            averageStats[key] += +gameStats[key];
-          }
+    var averageStats = { games_played: numberOfGames };
+    seasonStats.forEach(gameStats => {
+      for (let key in gameStats) {
+        averageStats[key] = averageStats[key] || 0;
+        if (key === 'min') {
+          (gameStats[key] ?? '').length > 2 ?
+            averageStats[key] += +(gameStats[key].match(/^([^:]+)/)[1].slice(0, 2)) :
+            averageStats[key] += +gameStats[key]
+        } else {
+          averageStats[key] += +gameStats[key];
         }
       }
     });
-
+    for (let key in averageStats) {
+      if (
+        key !== 'player' &&
+        key !== 'game' &&
+        key !== 'team' &&
+        key !== 'id' &&
+        key !== 'fg3_pct' &&
+        key !== 'fg_pct' &&
+        key !== 'ft_pct' &&
+        key !== 'games_played'
+      ) {
+        averageStats[key] = averageStats[key] / numberOfGames;
+      }
+    }
     return {
       averageSeasonStat: averageStats,
       seasonStats: seasonStats
