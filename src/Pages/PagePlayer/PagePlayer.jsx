@@ -13,14 +13,14 @@ export default function PagePlayer() {
   const { id } = useParams()
   const [selectedYear, setSelectedYear] = useState(
     (new Date()).getMonth() >= 9 ?
-    `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
-    `${(new Date()).getFullYear() -1}-${(new Date()).getFullYear()}`
+      `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
+      `${(new Date()).getFullYear() - 1}-${(new Date()).getFullYear()}`
   )
   const [states, setStates] = useState({
     isModal: false,
     seasonStats: []
   })
-  const averageTableHead = ['Season', 'G', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
+  const averageTableHead = ['Season', 'G', 'MIN', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const tableHead = ['DATE', 'OPP', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
   const { playerInfo, averageSeasonStat, isModal, seasonStats } = states
   const getPlayerInfo = useSelector(state => state.player.players.filter(item => +item.id === +id))
@@ -68,18 +68,18 @@ export default function PagePlayer() {
   }
 
   function getAverageStat(data) {
-    const seasonStats = sortDate(data).filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min)
+    const seasonStats = sortDate(data.filter(game => game.min !== '0:00' && game.min !== "" && game.min !== "00" && game.min))
     const numberOfGames = seasonStats.length
     var averageStats = {};
     seasonStats.forEach((gameStats, index) => {
-      for (var p in gameStats) {
-        if (gameStats.hasOwnProperty(p) && p !== 'player' && p !== 'game' && p !== 'team' && p !== 'id' && p !== 'fg3_pct' && p !== 'fg_pct' && p !== 'ft_pct') {
+      for (var key in gameStats) {
+        if (gameStats.hasOwnProperty(key) && key !== 'player' && key !== 'game' && key !== 'team' && key !== 'id' && key !== 'fg3_pct' && key !== 'fg_pct' && key !== 'ft_pct') {
           if (index === numberOfGames - 1) {
-            averageStats[p] = (averageStats[p] + +gameStats[p]) / numberOfGames;
+            averageStats[key] = (averageStats[key] ?? 0 + +gameStats[key]) / numberOfGames;
             averageStats.games_played = numberOfGames
           } else {
-            averageStats[p] = averageStats[p] || 0;
-            averageStats[p] += +gameStats[p];
+            averageStats[key] = averageStats[key] || 0;
+            averageStats[key] += +gameStats[key];
           }
         }
       }
@@ -153,16 +153,21 @@ export default function PagePlayer() {
                   <tr className={style.averageTable__row}>
                     <td>{selectedYear}</td>
                     <td>{averageSeasonStat.games_played.toFixed(0)}</td>
-                    {/* <td>{averageSeasonStat.min.toFixed(0)}:{(averageSeasonStat.min % 1 * 60).toFixed(0)}</td> */}
+                    <td>{averageSeasonStat.min.toFixed(1)}</td>
                     <td>{(averageSeasonStat.fgm - averageSeasonStat.fg3m).toFixed(1)}</td>
                     <td>{(averageSeasonStat.fga - averageSeasonStat.fg3a).toFixed(1)}</td>
-                    <td>{((averageSeasonStat.fgm - averageSeasonStat.fg3m) / (averageSeasonStat.fga - averageSeasonStat.fg3a)).toFixed(2)}</td>
+                    <td>
+                      {(
+                        (averageSeasonStat.fgm - averageSeasonStat.fg3m) /
+                        ((averageSeasonStat.fga - averageSeasonStat.fg3a) || 1)
+                      ).toFixed(2)}
+                    </td>
                     <td>{averageSeasonStat.fg3m.toFixed(1)}</td>
                     <td>{averageSeasonStat.fg3a.toFixed(1)}</td>
-                    <td>{(averageSeasonStat.fg3m / averageSeasonStat.fg3a).toFixed(2)}</td>
+                    <td>{(averageSeasonStat.fg3m / (averageSeasonStat.fg3a || 1)).toFixed(2)}</td>
                     <td>{averageSeasonStat.ftm.toFixed(1)}</td>
                     <td>{averageSeasonStat.fta.toFixed(1)}</td>
-                    <td>{(averageSeasonStat.ftm / averageSeasonStat.fta).toFixed(2)}</td>
+                    <td>{(averageSeasonStat.ftm / (averageSeasonStat.fta || 1)).toFixed(2)}</td>
                     <td>{averageSeasonStat.oreb.toFixed(1)}</td>
                     <td>{averageSeasonStat.dreb.toFixed(1)}</td>
                     <td>{averageSeasonStat.reb.toFixed(1)}</td>
@@ -186,21 +191,22 @@ export default function PagePlayer() {
           </div>
         }
       </div>
-      <div 
+      <div
         className={isModal ?
-            `${style.modal} ${style.active}` :
-            style.modal
-        } 
+          `${style.modal} ${style.active}` :
+          style.modal
+        }
         onClick={() => setStates({ ...states, isModal: false })}
       >
-        <div 
-          className={style.modal__wrapperOutside} 
-          onClick={(event) => event.stopPropagation()} 
-          style={{background: `
+        <div
+          className={style.modal__wrapperOutside}
+          onClick={(event) => event.stopPropagation()}
+          style={{
+            background: `
             linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
             url(/images/teams-images/${playerInfo.team.abbreviation}-back.jpg) center/cover no-repeat
           `,
-        }}>
+          }}>
           <div className={style.modal__close} onClick={() => setStates({ ...states, isModal: false })}>
             <img src={close} alt="" />
           </div>

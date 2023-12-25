@@ -38,12 +38,12 @@ export default function PageHome() {
     <div className={style.wrapper}>
       <form action="" className={style.form}>
         <div className={style.form__back} onClick={() => changeDate('minus')}>Back</div>
-        <input 
-          type="date" 
-          value={selectedDate} 
-          min="1979-01-01" 
-          onChange={(e) => handleDate(e)} 
-          className={style.form__input} 
+        <input
+          type="date"
+          value={selectedDate}
+          min="1979-01-01"
+          onChange={(e) => handleDate(e)}
+          className={style.form__input}
         />
         <div className={style.form__next} onClick={() => changeDate('plus')}>Next</div>
       </form>
@@ -53,53 +53,47 @@ export default function PageHome() {
             <Link to={`/team/${game.visitor_team.id}`} className={style.game__team_logo}>
               <img src={`/images/teams-logo-images/${game.visitor_team.abbreviation}-2023.png`} alt="" />
             </Link>
-            <Link 
-              to={`/team/${game.visitor_team.id}`} 
+            <Link
+              to={`/team/${game.visitor_team.id}`}
               className={style.game__fullName}
             >
               {game.visitor_team.full_name}
             </Link>
-            <Link 
-              to={`/team/${game.visitor_team.id}`} 
+            <Link
+              to={`/team/${game.visitor_team.id}`}
               className={style.game__abbreviation}
             >
               {game.visitor_team.abbreviation}
             </Link>
             {game.status === 'Final' ?
               <Link
-                to={`/game/${game.id}`} 
+                to={`/game/${game.id}`}
                 className={style.game__status_score}
               >
                 {game.visitor_team_score} : {game.home_team_score}
               </Link> :
-              game.postseason ?
-                game.time ?
-                  <Link to={`/game/${game.id}`} className={style.game__status_score}>
-                    <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
-                    <p>{format(new Date(game.status), "HH:mm")}</p>
-                  </Link> :
-                  <div className={style.game__status}>{format(new Date(game.status), "HH:mm")}</div> : 
-                game.time ?
-                  <Link to={`/game/${game.id}`} className={style.game__status_score}>
-                    <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
-                    <p>{format(new Date(game.status), "HH:mm")}</p>
-                  </Link> :
-                  <div className={style.game__status}>{format(new Date(game.status), "HH:mm")}</div>
+              game.time ?
+                <Link to={`/game/${game.id}`} className={style.game__status_score}>
+                  <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
+
+                  <p>{game.status}</p>
+                </Link> :
+                <div className={style.game__status}>{format(new Date(game.status), "HH:mm")}</div>
             }
-            <Link 
-              to={`/team/${game.home_team.id}`} 
+            <Link
+              to={`/team/${game.home_team.id}`}
               className={style.game__fullName}
             >
               {game.home_team.full_name}
             </Link>
-            <Link 
-              to={`/team/${game.home_team.id}`} 
+            <Link
+              to={`/team/${game.home_team.id}`}
               className={style.game__abbreviation}
             >
               {game.home_team.abbreviation}
             </Link>
-            <Link 
-              to={`/team/${game.home_team.id}`} 
+            <Link
+              to={`/team/${game.home_team.id}`}
               className={style.game__team_logo}
             >
               <img src={`/images/teams-logo-images/${game.home_team.abbreviation}-2023.png`} alt="" />

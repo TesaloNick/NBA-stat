@@ -24,7 +24,7 @@ export default function Table({ stats }) {
               <td>{game.min.length < 3 && game.min.length > 1 && game.min[0] === '0' ? game.min.slice(1, game.min.length) : game.min}</td>
               <td>{(game.fgm - game.fg3m).toFixed(0)}</td>
               <td>{(game.fga - game.fg3a).toFixed(0)}</td>
-              <td>{(game.fga - game.fg3a) !== 0 ? ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) : '0.0'}</td>
+              <td>{(game.fga - game.fg3a) !== 0 ? ((game.fgm - game.fg3m) / (game.fga - game.fg3a)).toFixed(2) : '0.00'}</td>
               <td>{game.fg3m.toFixed(0)}</td>
               <td>{game.fg3a.toFixed(0)}</td>
               <td>{(+game.fg3_pct).toFixed(2)}</td>
