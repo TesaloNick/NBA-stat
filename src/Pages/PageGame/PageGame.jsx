@@ -10,6 +10,18 @@ export default function PageGame() {
   const { id } = useParams()
   const [stats, setStats] = useState(false)
 
+  function sumTableRows(arr) {
+    return arr.reduce((acc, obj) => {
+      for (let key in obj) {
+        if (acc.hasOwnProperty(key)) {
+          acc[key] += obj[key];
+        } else {
+          acc[key] = obj[key];
+        }
+      }
+      return acc;
+    }, {});
+  }
 
   useEffect(() => {
     axios.get(`https://www.balldontlie.io/api/v1/stats?game_ids[]=${id}&per_page=100`)
@@ -32,11 +44,13 @@ export default function PageGame() {
           player.min &&
           player.min !== '0:00'
         ).sort((a, b) => +b.min - +a.min)
+        visitor_team.push(sumTableRows(visitor_team))
         const home_team = data.filter(player =>
           player.team.id === dataGame.home_team_id &&
           player.min &&
           player.min !== '0:00'
         ).sort((a, b) => +b.min - +a.min)
+        home_team.push(sumTableRows(home_team))
         setStats({
           home_team,
           visitor_team,
