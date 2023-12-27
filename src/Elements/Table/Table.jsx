@@ -1,27 +1,73 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './Table.module.scss'
 import { Link } from 'react-router-dom'
 
 export default function Table({ stats }) {
-  const tableHead = ['Players', 'MP', '2P', '2PA', '2P%', '3P', '3PA', '3P%', 'FT', 'FTA', 'FT%', 'ORB', 'DRB', 'TRB', 'AST', 'STL', ' BLK', 'TOV', 'PF', 'PTS']
+  const [refactoredStats, setRefactoredStats] = useState(stats)
+  const sumRow = stats?.find(row => typeof row.game == 'string')
+
+  const tableHead = [
+    { name: 'Players', key: '' },
+    { name: 'MP', key: '' },
+    { name: '2P', key: '' },
+    { name: '2PA', key: '' },
+    { name: '2P%', key: '' },
+    { name: '3P', key: 'fg3m' },
+    { name: '3PA', key: 'fg3a' },
+    { name: '3P%', key: '' },
+    { name: 'FT', key: 'ftm' },
+    { name: 'FTA', key: 'fta' },
+    { name: 'FT%', key: '' },
+    { name: 'ORB', key: 'oreb' },
+    { name: 'DRB', key: 'dreb' },
+    { name: 'TRB', key: 'reb' },
+    { name: 'AST', key: 'ast' },
+    { name: 'STL', key: 'stl' },
+    { name: 'BLK', key: 'blk' },
+    { name: 'TOV', key: 'turnover' },
+    { name: 'PF', key: 'pf' },
+    { name: 'PTS', key: 'pts' }
+  ]
+
+  function sortRows(key) {
+    const statsRows = refactoredStats.filter(row => typeof row.game != 'string').sort((a, b) => {
+      return b[key] - a[key];
+    });
+    statsRows.push(sumRow)
+    setRefactoredStats(statsRows);
+  }
 
   return (
     <div className={style.wrapper}>
       <table className={style.statsTable} style={{
-        background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${stats[0].team.abbreviation}-back.jpg) center/cover no-repeat`,
+        background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/teams-images/${refactoredStats[0]?.team.abbreviation}-back.jpg) center/cover no-repeat`,
       }}>
-        <caption>{stats[0].team.full_name}. Players statistics</caption>
+        <caption>{refactoredStats[0]?.team.full_name}. Players statistics</caption>
         <thead className={style.statsTable__type}>
           <tr className={style.statsTable__row}>
-            {tableHead.map(item => <th key={item}>{item}</th>)}
+            {tableHead.map(item =>
+              <th
+                key={item.name}
+                onClick={() => sortRows(item.key)}
+                style={{
+                  textDecoration: item.key ? 'underline' : 'none',
+                  textUnderlineOffset: '2px',
+                  cursor: item.key ? 'pointer' : 'auto',
+                }}
+              >
+                {item.name}
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className={style.statsTable__type}>
-          {stats.map(game => (
+          {refactoredStats.map(game => (
             game.min !== '00' && game.min !== null &&
             <tr className={style.statsTable__row} key={game.id}>
               <td>{game.player ?
-                <Link to={`/player/${game.player.id}`}>{game.player.first_name} {game.player.last_name}</Link> :
+                <Link to={`/player/${game.player.id}`}>
+                  {game.player.first_name} {game.player.last_name}
+                </Link> :
                 'noname'
               }</td>
               <td>{game.min.length < 3 && game.min.length > 1 && game.min[0] === '0' ?
