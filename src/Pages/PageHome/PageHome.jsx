@@ -18,7 +18,6 @@ export default function PageHome() {
     axios.get(`https://api.balldontlie.io/v1/games?dates[]=${selectedDate}`, {
       headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
     }).then(res => setGames(res.data.data))
-    console.log('seasons', seasons);
   }, [selectedDate])
 
   function handleDate(e) {
