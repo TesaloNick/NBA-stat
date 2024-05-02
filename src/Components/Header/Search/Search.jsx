@@ -26,10 +26,11 @@ export default function Search() {
 
   function submitSearch(event) {
     event.preventDefault()
-    axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100&page=1`)
-      .then(res => {
-        dispatch(changePlayersSearchResult(res.data.data))
-      })
+    axios.get(`https://api.balldontlie.io/v1/players?search=${searchedName}&per_page=100&page=1`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => {
+      dispatch(changePlayersSearchResult(res.data.data))
+    })
 
     navigate(`/searching/${searchedName}`)
     setIsActiveSearch(!isActiveSearch)

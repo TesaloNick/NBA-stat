@@ -24,39 +24,40 @@ export default function PageGame() {
   }
 
   useEffect(() => {
-    axios.get(`https://www.balldontlie.io/api/v1/stats?game_ids[]=${id}&per_page=100`)
-      .then(res => {
-        const data = res.data.data.map(player => {
-          const min = (player.min ?? '').length > 2 ?
-            +(player.min.match(/^([^:]+)/)[1].slice(0, 2)) :
-            +player.min
-          return { ...player, min }
-        })
-        const dataGame = {
-          ...data[0].game,
-          visitor_team_full_name: data.find(item => item.team.id === item.game.visitor_team_id).team.full_name,
-          home_team_full_name: data.find(item => item.team.id === item.game.home_team_id).team.full_name,
-          visitor_team_abbreviation: data.find(item => item.team.id === item.game.visitor_team_id).team.abbreviation,
-          home_team_abbreviation: data.find(item => item.team.id === item.game.home_team_id).team.abbreviation,
-        }
-        const visitor_team = data.filter(player =>
-          player.team.id === dataGame.visitor_team_id &&
-          player.min &&
-          player.min !== '0:00'
-        ).sort((a, b) => +b.min - +a.min)
-        visitor_team.push(sumTableRows(visitor_team))
-        const home_team = data.filter(player =>
-          player.team.id === dataGame.home_team_id &&
-          player.min &&
-          player.min !== '0:00'
-        ).sort((a, b) => +b.min - +a.min)
-        home_team.push(sumTableRows(home_team))
-        setStats({
-          home_team,
-          visitor_team,
-          dataGame
-        })
+    axios.get(`https://api.balldontlie.io/v1/stats?game_ids[]=${id}&per_page=100`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => {
+      const data = res.data.data.map(player => {
+        const min = (player.min ?? '').length > 2 ?
+          +(player.min.match(/^([^:]+)/)[1].slice(0, 2)) :
+          +player.min
+        return { ...player, min }
       })
+      const dataGame = {
+        ...data[0].game,
+        visitor_team_full_name: data.find(item => item.team.id === item.game.visitor_team_id).team.full_name,
+        home_team_full_name: data.find(item => item.team.id === item.game.home_team_id).team.full_name,
+        visitor_team_abbreviation: data.find(item => item.team.id === item.game.visitor_team_id).team.abbreviation,
+        home_team_abbreviation: data.find(item => item.team.id === item.game.home_team_id).team.abbreviation,
+      }
+      const visitor_team = data.filter(player =>
+        player.team.id === dataGame.visitor_team_id &&
+        player.min &&
+        player.min !== '0:00'
+      ).sort((a, b) => +b.min - +a.min)
+      visitor_team.push(sumTableRows(visitor_team))
+      const home_team = data.filter(player =>
+        player.team.id === dataGame.home_team_id &&
+        player.min &&
+        player.min !== '0:00'
+      ).sort((a, b) => +b.min - +a.min)
+      home_team.push(sumTableRows(home_team))
+      setStats({
+        home_team,
+        visitor_team,
+        dataGame
+      })
+    })
   }, [])
 
   if (!stats) {

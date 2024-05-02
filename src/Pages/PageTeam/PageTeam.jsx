@@ -13,8 +13,8 @@ export default function PageTeam() {
   const { id } = useParams()
   const [selectedYear, setSelectedYear] = useState(
     (new Date()).getMonth() >= 9 ?
-    `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
-    `${(new Date()).getFullYear() -1}-${(new Date()).getFullYear()}`
+      `${(new Date()).getFullYear()}-${(new Date()).getFullYear() + 1}` :
+      `${(new Date()).getFullYear() - 1}-${(new Date()).getFullYear()}`
   )
   const [teamInfo, setTeamInfo] = useState(false)
   const [seasonInfo, setSeasonInfo] = useState({
@@ -28,38 +28,34 @@ export default function PageTeam() {
   const teamBaseInfo = useSelector(state => state.teams.teams).find(team => team.id === +id)
 
   useEffect(() => {
-    axios.get(`
-      https://www.balldontlie.io/api/v1/games?seasons[]=${
-        selectedYear.slice(0, 4)
-      }&team_ids[]=${id}&per_page=100&postseason=false&start_date=${
-        selectedYear.slice(0, 4)
-      }-10-01
-    `)
-      .then(res => {
-        let data = sortDate(res.data.data)
-        if (data.length === 0) {
-          setTeamInfo({ ...teamInfo, isStatExist: false })
-        } else {
-          setSeasonInfo({ ...seasonInfo, seasonStats: data })
-          let wins = 0, losses = 0, abbreviation = '', name = ''
-          data.map(item => {
-            if (item.status === "Final") {
-              if (item.home_team.id == id) {
-                abbreviation = item.home_team.abbreviation
-                name = item.home_team.full_name
-                item.home_team_score > item.visitor_team_score ? wins++ : losses++
-              } else {
-                item.visitor_team_score > item.home_team_score ? wins++ : losses++
-              }
+    axios.get(`https://api.balldontlie.io/v1/games?seasons[]=${selectedYear.slice(0, 4)}&team_ids[]=${id}&per_page=100&postseason=false&start_date=${selectedYear.slice(0, 4)}-10-01
+    `, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => {
+      let data = sortDate(res.data.data)
+      if (data.length === 0) {
+        setTeamInfo({ ...teamInfo, isStatExist: false })
+      } else {
+        setSeasonInfo({ ...seasonInfo, seasonStats: data })
+        let wins = 0, losses = 0, abbreviation = '', name = ''
+        data.map(item => {
+          if (item.status === "Final") {
+            if (item.home_team.id == id) {
+              abbreviation = item.home_team.abbreviation
+              name = item.home_team.full_name
+              item.home_team_score > item.visitor_team_score ? wins++ : losses++
+            } else {
+              item.visitor_team_score > item.home_team_score ? wins++ : losses++
             }
-          })
+          }
+        })
 
-          setTeamInfo({
-            isStatExist: true,
-            teamInfoSeason: { name, abbreviation, wins, losses, }
-          })
-        }
-      })
+        setTeamInfo({
+          isStatExist: true,
+          teamInfoSeason: { name, abbreviation, wins, losses, }
+        })
+      }
+    })
   }, [selectedYear, id])
 
   async function showDetailedStats() {
@@ -108,18 +104,19 @@ export default function PageTeam() {
           `${style.modal} ${style.active}` :
           style.modal
       } onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}>
-        <div 
-          className={style.modal__wrapperOutside} 
-          onClick={(event) => event.stopPropagation()} 
-          style={{background: `
+        <div
+          className={style.modal__wrapperOutside}
+          onClick={(event) => event.stopPropagation()}
+          style={{
+            background: `
             linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
             url(/images/teams-images/${teamInfoSeason.abbreviation}-back.jpg) 
             center/cover 
             no-repeat
           `}}
         >
-          <div 
-            className={style.modal__close} 
+          <div
+            className={style.modal__close}
             onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
           >
             <img src={close} alt="" />
@@ -141,8 +138,8 @@ export default function PageTeam() {
                     }</td>
                     <td>{game.visitor_team.id === id ?
                       game.visitor_team.full_name :
-                      <Link 
-                        to={`/team/${game.visitor_team.id}`} 
+                      <Link
+                        to={`/team/${game.visitor_team.id}`}
                         onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
                       >
                         {game.visitor_team.full_name}
@@ -157,8 +154,8 @@ export default function PageTeam() {
                       '-'}</td>
                     <td>{game.home_team.id === id ?
                       game.home_team.full_name :
-                      <Link 
-                        to={`/team/${game.home_team.id}`} 
+                      <Link
+                        to={`/team/${game.home_team.id}`}
                         onClick={() => setSeasonInfo({ ...seasonInfo, isModal: false })}
                       >
                         {game.home_team.full_name}

@@ -28,8 +28,12 @@ export default function PagePlayer() {
   const teams = useSelector(state => state.teams.teams)
 
   useEffect(() => {
-    const requestPlayerInfo = axios.get(`https://www.balldontlie.io/api/v1/players/${id}`);
-    const requestSeasonStat = axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${selectedYear.slice(5, 9)}-07-01&postseason=false`);
+    const requestPlayerInfo = axios.get(`https://api.balldontlie.io/v1/players/${id}`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    });
+    const requestSeasonStat = axios.get(`https://api.balldontlie.io/v1/stats?player_ids[]=${id}&per_page=100&start_date=${selectedYear.slice(0, 4)}-10-01&end_date=${selectedYear.slice(5, 9)}-07-01&postseason=false`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    });
 
     if (getPlayerInfo.length === 0) {
       axios.all([requestPlayerInfo, requestSeasonStat])
@@ -49,22 +53,23 @@ export default function PagePlayer() {
   }, [])
 
   async function getFullStat(season) {
-    axios.get(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${id}&per_page=100&start_date=${season.slice(0, 4)}-10-01&end_date=${season.slice(5, 9)}-07-01&postseason=false`)
-      .then(res => {
-        const data = res.data.data
-        data.length === 0 ?
-          setStates({
-            ...states,
-            playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
-            averageSeasonStat: false,
-          }) :
-          setStates({
-            ...states,
-            playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
-            averageSeasonStat: getAverageStat(data).averageSeasonStat,
-            seasonStats: getAverageStat(data).seasonStats
-          })
-      })
+    axios.get(`https://api.balldontlie.io/v1/stats?player_ids[]=${id}&per_page=100&start_date=${season.slice(0, 4)}-10-01&end_date=${season.slice(5, 9)}-07-01&postseason=false`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => {
+      const data = res.data.data
+      data.length === 0 ?
+        setStates({
+          ...states,
+          playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
+          averageSeasonStat: false,
+        }) :
+        setStates({
+          ...states,
+          playerInfo: playerInfo ? playerInfo : getPlayerInfo[0].playerInfo,
+          averageSeasonStat: getAverageStat(data).averageSeasonStat,
+          seasonStats: getAverageStat(data).seasonStats
+        })
+    })
   }
 
   function getAverageStat(data) {

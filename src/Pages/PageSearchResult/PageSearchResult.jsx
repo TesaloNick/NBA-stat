@@ -27,18 +27,19 @@ export default function PageSearchResult() {
     const endOffset = itemOffset + itemsPerPage;
 
     if (!playersSearchResult) {
-      axios.get(`https://www.balldontlie.io/api/v1/players?search=${searchedName}&per_page=100`)
-        .then(res => {
-          const data = res.data.data;
-          setPlayersInfo(data)
-          setPagination({
-            ...pagination,
-            items: data,
-            currentItems: data.slice(itemOffset, endOffset),
-            pageCount: Math.ceil(data.length / itemsPerPage),
-            itemOffset: 0,
-          })
+      axios.get(`https://api.balldontlie.io/v1/players?search=${searchedName}&per_page=100`, {
+        headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+      }).then(res => {
+        const data = res.data.data;
+        setPlayersInfo(data)
+        setPagination({
+          ...pagination,
+          items: data,
+          currentItems: data.slice(itemOffset, endOffset),
+          pageCount: Math.ceil(data.length / itemsPerPage),
+          itemOffset: 0,
         })
+      })
     } else {
       setPlayersInfo(playersSearchResult.data)
       setPagination({

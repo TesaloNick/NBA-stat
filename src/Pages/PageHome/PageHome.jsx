@@ -4,17 +4,21 @@ import style from './PageHome.module.scss'
 import Spinner from '../Spinner/Spinner'
 import { format, subDays } from 'date-fns'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function PageHome() {
   const [games, setGames] = useState(false)
   const navigate = useNavigate()
+  const seasons = useSelector(state => state.seasons.seasons)
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const selectedDate = queryParams.get('date') ?? format(new Date(), 'yyyy-MM-dd');
 
   useEffect(() => {
-    axios.get(`https://www.balldontlie.io/api/v1/games?dates[]=${selectedDate}`)
-      .then(res => setGames(res.data.data))
+    axios.get(`https://api.balldontlie.io/v1/games?dates[]=${selectedDate}`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => setGames(res.data.data))
+    console.log('seasons', seasons);
   }, [selectedDate])
 
   function handleDate(e) {
@@ -41,7 +45,7 @@ export default function PageHome() {
         <input
           type="date"
           value={selectedDate}
-          min="1979-01-01"
+          min={`${seasons[0].split('-')[0]}-10-01`}
           onChange={(e) => handleDate(e)}
           className={style.form__input}
         />

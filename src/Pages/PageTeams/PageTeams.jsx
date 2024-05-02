@@ -10,38 +10,39 @@ export default function PageTeams() {
   const [selectedType, setSelectedType] = useState("division")
 
   useEffect(() => {
-    axios.get(`https://www.balldontlie.io/api/v1/teams?per_page=30`)
-      .then(res => {
-        const dataTeams = res.data.data
+    axios.get(`https://api.balldontlie.io/v1/teams?per_page=30`, {
+      headers: { Authorization: '4f56a15d-cc2a-4aa0-beb4-c70c6166fcf3' }
+    }).then(res => {
+      const dataTeams = res.data.data
 
-        let teamsObj = {
-          conferences: [
-            { name: 'Western', teams: [] },
-            { name: 'Eastern', teams: [] },
-          ],
-          divisions: [
-            { name: 'Southwest', teams: [] },
-            { name: 'Northwest', teams: [] },
-            { name: 'Pacific', teams: [] },
-            { name: 'Southeast', teams: [] },
-            { name: 'Atlantic', teams: [] },
-            { name: 'Central', teams: [] },
-          ],
-        }
+      let teamsObj = {
+        conferences: [
+          { name: 'Western', teams: [] },
+          { name: 'Eastern', teams: [] },
+        ],
+        divisions: [
+          { name: 'Southwest', teams: [] },
+          { name: 'Northwest', teams: [] },
+          { name: 'Pacific', teams: [] },
+          { name: 'Southeast', teams: [] },
+          { name: 'Atlantic', teams: [] },
+          { name: 'Central', teams: [] },
+        ],
+      }
 
-        dataTeams.forEach(item => {
-          if (item.conference === 'East') teamsObj.conferences[1].teams = [...teamsObj.conferences[1].teams, item]
-          if (item.conference === 'West') teamsObj.conferences[0].teams = [...teamsObj.conferences[0].teams, item]
-          if (item.division === 'Southwest') teamsObj.divisions[0].teams = [...teamsObj.divisions[0].teams, item]
-          if (item.division === 'Northwest') teamsObj.divisions[1].teams = [...teamsObj.divisions[1].teams, item]
-          if (item.division === 'Pacific') teamsObj.divisions[2].teams = [...teamsObj.divisions[2].teams, item]
-          if (item.division === 'Southeast') teamsObj.divisions[3].teams = [...teamsObj.divisions[3].teams, item]
-          if (item.division === 'Atlantic') teamsObj.divisions[4].teams = [...teamsObj.divisions[4].teams, item]
-          if (item.division === 'Central') teamsObj.divisions[5].teams = [...teamsObj.divisions[5].teams, item]
-        })
-
-        setTeams(teamsObj)
+      dataTeams.forEach(item => {
+        if (item.conference === 'East') teamsObj.conferences[1].teams = [...teamsObj.conferences[1].teams, item]
+        if (item.conference === 'West') teamsObj.conferences[0].teams = [...teamsObj.conferences[0].teams, item]
+        if (item.division === 'Southwest') teamsObj.divisions[0].teams = [...teamsObj.divisions[0].teams, item]
+        if (item.division === 'Northwest') teamsObj.divisions[1].teams = [...teamsObj.divisions[1].teams, item]
+        if (item.division === 'Pacific') teamsObj.divisions[2].teams = [...teamsObj.divisions[2].teams, item]
+        if (item.division === 'Southeast') teamsObj.divisions[3].teams = [...teamsObj.divisions[3].teams, item]
+        if (item.division === 'Atlantic') teamsObj.divisions[4].teams = [...teamsObj.divisions[4].teams, item]
+        if (item.division === 'Central') teamsObj.divisions[5].teams = [...teamsObj.divisions[5].teams, item]
       })
+
+      setTeams(teamsObj)
+    })
   }, [])
 
   function changeType(event) {
