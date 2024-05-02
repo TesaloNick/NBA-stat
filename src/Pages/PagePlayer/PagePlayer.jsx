@@ -38,7 +38,7 @@ export default function PagePlayer() {
     if (getPlayerInfo.length === 0) {
       axios.all([requestPlayerInfo, requestSeasonStat])
         .then(axios.spread((...responses) => {
-          const resPlayerInfo = responses[0].data
+          const resPlayerInfo = responses[0].data.data
           const data = responses[1].data.data
           setStates({
             ...states,
@@ -128,10 +128,9 @@ export default function PagePlayer() {
     return (<Spinner />)
   }
 
-
   return (
     <div className={style.wrapper}>
-      <SelectSeason change={changeSeason} value={selectedYear} list={seasons} />
+      {/* <SelectSeason change={changeSeason} value={selectedYear} list={seasons} /> */}
       <div className={style.player}>
         <Link to={`/team/${playerInfo.team.id}`} className={style.player__logo}>
           <img src={`/images/teams-logo-images/${playerInfo.team.abbreviation}-2023.png`} alt="" />
