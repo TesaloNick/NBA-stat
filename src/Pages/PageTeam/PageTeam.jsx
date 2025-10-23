@@ -23,7 +23,7 @@ export default function PageTeam() {
   })
   const { isModal, seasonStats } = seasonInfo
   const { isStatExist, teamInfoSeason } = teamInfo
-  const tableHead = ['DATE', 'Visitor team', 'Score', '@', 'Score', 'Home team', 'Box Score', 'W/L']
+  const tableHead = ['DATE', 'Visitor team', 'Score', '@', 'Score', 'Home team', 'W/L']
   const seasons = useSelector(state => state.seasons.seasons)
   const teamBaseInfo = useSelector(state => state.teams.teams).find(team => team.id === +id)
 
@@ -133,7 +133,7 @@ export default function PageTeam() {
                 {seasonStats.map(game => (
                   <tr className={style.statsTable__row} key={game.id}>
                     <td>{game.status === 'Final' ?
-                      <Link to={`/game/${game.id}`}>{game.date.slice(0, 10)}</Link> :
+                      <div>{game.date.slice(0, 10)}</div> :
                       game.date.slice(0, 10)
                     }</td>
                     <td>{game.visitor_team.id === id ?
@@ -161,11 +161,6 @@ export default function PageTeam() {
                         {game.home_team.full_name}
                       </Link>
                     }</td>
-                    <td>{game.status === 'Final' ?
-                      <Link to={`/game/${game.id}`}>Box Score</Link> :
-                      'Box Score'
-                    }
-                    </td>
                     <td>{
                       id == game.visitor_team.id && game.visitor_team_score > game.home_team_score ?
                         'W' : id == game.home_team.id && game.home_team_score > game.visitor_team_score ?

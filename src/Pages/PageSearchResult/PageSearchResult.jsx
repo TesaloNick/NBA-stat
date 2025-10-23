@@ -85,7 +85,7 @@ export default function PageSearchResult() {
       <div className={style.players_wrapper}>
         {currentItems.length > 0 ?
           currentItems.map(player => (
-            <Link to={`/player/${player.id}`} key={player.id} className={`${style.player} ${style.effect_1}`} onClick={() => savePlayerInfo(player)}>
+            <div key={player.id} className={`${style.player} ${style.effect_1}`} onClick={() => savePlayerInfo(player)}>
               <div className={style.player__logo_wrapper}>
                 <img src={`/images/teams-logo-images/${player.team.abbreviation}-2023.png`} alt="" />
               </div>
@@ -111,7 +111,7 @@ export default function PageSearchResult() {
                 </div>
                 <div className={style.player__text}><b>Team: </b>{player.team.abbreviation}</div>
               </div>
-            </Link>
+            </div>
           )) :
           <div className={style.wrong}>
             <h2 className={style.wrong__title}>There have never been such players in the NBA</h2>

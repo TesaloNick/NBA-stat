@@ -65,9 +65,9 @@ export default function Table({ stats }) {
             game.min !== '00' && game.min !== null &&
             <tr className={style.statsTable__row} key={game.id}>
               <td>{game.player ?
-                <Link to={`/player/${game.player.id}`}>
+                <div>
                   {game.player.first_name} {game.player.last_name}
-                </Link> :
+                </div> :
                 'noname'
               }</td>
               <td>{game.min.length < 3 && game.min.length > 1 && game.min[0] === '0' ?

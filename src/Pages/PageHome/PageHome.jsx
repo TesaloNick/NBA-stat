@@ -69,18 +69,15 @@ export default function PageHome() {
               {game.visitor_team.abbreviation}
             </Link>
             {game.status === 'Final' ?
-              <Link
-                to={`/game/${game.id}`}
-                className={style.game__status_score}
-              >
+              <div className={style.game__status_score}>
                 {game.visitor_team_score} : {game.home_team_score}
-              </Link> :
+              </div> :
               game.time ?
-                <Link to={`/game/${game.id}`} className={style.game__status_score}>
+                <div className={style.game__status_score}>
                   <p>{`${game.visitor_team_score} : ${game.home_team_score}`}</p>
 
                   <p>{game.status}</p>
-                </Link> :
+                </div> :
                 <div className={style.game__status}>{format(new Date(game.status), "HH:mm")}</div>
             }
             <Link
